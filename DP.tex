@@ -1,0 +1,223 @@
+\documentclass[a4paper,11pt]{report}
+\usepackage[czech]{babel}	%česky psaná práce
+\usepackage[utf8]{inputenc}	%znaková sada utf8
+
+\usepackage{amsmath} % baíček pro pokročilou matem. sazbu
+\usepackage{epsfig} % balíčky pro vkládání grafických souborů typu EPS
+\usepackage{graphicx} % balíček pro vložení grafických souborů
+
+%\usepackage{setspace} 
+
+\usepackage{latexsym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{multirow}
+\graphicspath{{pics/}}
+
+\oddsidemargin=10mm   % levý okraj větší (kvůli vazbě)
+\topmargin=-15mm      % horní okraj trochu menší
+\textwidth=150mm      % výška textu na stránce
+\textheight=240mm     % "výška" textu na stránce
+
+\pagenumbering{arabic} % číslování stránek arabskými číslicemi
+\pagestyle{plain}      % stránky číslované dole uprostřed
+
+\parindent=0pt % odsazení 1. řádku odstavce
+\parskip=7pt   % mezera mezi odstavci
+\frenchspacing % aktivuje použití některých českých typografických pravidel
+
+
+\input{prikazy.tex}
+
+% definice makra pro české uvozovky:
+\def\bq{\mbox{\kern.1ex\protect\raisebox{-1.3ex}[0pt][0pt]{''}\kern-.1ex}}
+\def\eq{\mbox{\kern-.1ex``\kern.1ex}}
+\def\ifundefined#1{\expandafter\ifx\csname#1\endcsname\relax }%
+\ifundefined{uv}%
+        \gdef\uv#1{\bq #1\eq}
+\fi
+% konec .... použití makra pro psaní českých uvozovek: \uv{text uvnitř uvozovek}
+
+% zde jsou zavedeny některé "konstanty" - můžete, resp. musíte je ZMĚNIT 
+\newcommand{\cvut}{České vysoké učení technické v~Praze}
+\newcommand{\fjfi}{Fakulta jaderná a fyzikálně inženýrská}
+\newcommand{\kse}{Katedra softwarového inženýrství}
+\newcommand{\obor}{Aplikace softwarového inženýrství}
+
+\newcommand{\nazevcz}{Porovnání účinnosti komprese dat ve formátech XML a JSON}        % zde VYPLŇTE český název práce (přesně podle zadání!)
+
+%The proposal of a service programme for smart consumption meters
+\newcommand{\nazeven}{Comparison of the effectiveness of data compression in XML and JSON format}     % zde VYPLŇTE anglický název práce (přesně podle zadání!)
+\newcommand{\autor}{Bc. Tomáš~Smola}           % zde VYPLŇTE své jméno a příjmení
+\newcommand{\rok}{2015}                % zde VYPLŇTE rok odevzdání, např. 2006
+\newcommand{\vedouci}{Ing.~Tomáš~Liška,~Ph.D.}         % zde VYPLŇTE jméno a příjmení vedoucího práce, včetně titulů
+                                                               % např. Doc. Ing. Ivo Malý, Ph.D.
+\newcommand{\pracovisteVed}{\kse, \fjfi, \cvut} % zde VYPLŇTE pracoviště vedoucího práce, je-li jiné než KSE FJFI ČVUT
+
+\newcommand{\konzultant}{---} % POKUD MÁTE určeného konzultanta, NAPIŠTE jeho jméno a příjmení
+\newcommand{\pracovisteKonz}{} % POKUD MÁTE konzultanta, NAPIŠTE jeho pracoviště
+
+\newcommand{\klicova}{Klíčová slova}   % zde NAPIŠTE česky max. 5 klíčových slov
+\newcommand{\keyword}{Key words}       % zde NAPIŠTE anglicky max. 5 klíčových slov (přeložte z češtiny)
+\newcommand{\abstrCZ}{Abstrakt} % zde NAPIŠTE abstrakt včeštině
+\newcommand{\abstrEN}{Abstract}                  % zde NAPIŠTE abstrakt v angličtině
+\begin{document}
+
+% 1. strana -- na následujících 30 řádků NESAHEJTE!!!  Generují se AUTOMATICKY 
+\thispagestyle{empty}
+
+\begin{center}
+    {\Large \bf \cvut\\[2mm] \fjfi }
+    \vspace{10mm}
+
+    \begin{tabular}{c}
+    {\bf \kse}\\
+    {\bf Obor: \obor}\\
+    \end{tabular}
+
+   % logo CVUT
+   %\vspace{10mm} \epsfysize=25mm \epsffile{cvut-logo-bw} \vspace{15mm}
+
+   \vspace{10mm} \includegraphics[angle=0, width=25mm]{cvut-logo-bw} \vspace{15mm}
+
+   {\Huge \bf \nazevcz\par \vspace{5mm} \nazeven }
+
+   \vspace{15mm}
+   {\Large DIPLOMOVÁ PRÁCE}
+
+   \vfill
+   {\large
+    \begin{tabular}{rl}
+    Vypracoval: & \autor\\
+    Vedoucí práce: & \vedouci\\
+    Rok: & \rok
+    \end{tabular}
+   }
+\end{center}
+
+% 2. strana: zadání práce  
+%   Před svázáním místo téhle stránky vložte zadání práce s podpisem děkana
+\newpage  % SEM NESAHEJTE!
+\thispagestyle{empty} Před svázáním místo téhle stránky \fbox{vložte zadání práce} s podpisem
+děkana (bude to jediný oboustranný list ve Vaší práci) !!!!
+
+% 3. strana: prohlášení
+\newpage % SEM NESAHEJTE!
+\thispagestyle{empty}  % SEM NESAHEJTE!
+
+~ % SEM NESAHEJTE!
+\vfill % prázdné místo. SEM NESAHEJTE!
+
+{\bf Prohlášení} % SEM NESAHEJTE!
+
+\vspace{0.5cm} % vertikální mezera. SEM NESAHEJTE!
+Prohlašuji, že jsem svou diplomovou práci vypracoval samostatně a použil jsem pouze podklady
+(literaturu, projekty, SW atd.) uvedené v přiloženém seznamu.
+
+\vspace{5mm}V Praze dne ....................\hfill  % SEM NESAHEJTE!
+    \begin{tabular}{c}                               % SEM NESAHEJTE!
+    ........................................\\       % SEM NESAHEJTE!
+    \autor                                           % SEM NESAHEJTE!
+    \end{tabular}                                    % SEM NESAHEJTE!
+
+% 4. strana: poděkování -- UPRAVTE JMÉNO
+\newpage
+\thispagestyle{empty}
+
+~
+\vfill % prázdné místo
+
+{\bf Poděkování}
+
+\vspace{5mm} % vertikální mezera
+Děkuji Ing. Tomáši Liškovi, Ph.D. za vedení mé diplomové práce a za podnětné návrhy, které ho obohatily.
+
+\begin{flushright}
+\autor
+\end{flushright}  % <------- tady končí stránka s poděkováním
+
+% 5. strana: abstrakt atp. Je generován AUTOMATICKY podle údajů na začátku souboru)
+\newpage   % SEM NESAHEJTE!
+\thispagestyle{empty}   % SEM NESAHEJTE!
+
+% příprava:    (na následujících 8 řádků NESAHEJTE!)
+\newbox\odstavecbox
+\newlength\vyskaodstavce
+\newcommand\odstavec[2]{%
+    \setbox\odstavecbox=\hbox{%
+         \parbox[t]{#1}{#2\vrule width 0pt depth 4pt}}%
+    \global\vyskaodstavce=\dp\odstavecbox
+    \box\odstavecbox}
+\newcommand{\delka}{120mm} % šířka textu ve 2. sloupci tabulky
+
+% použití přípravy:    % dovnitř "tabular" vůbec NESAHEJTE!
+\begin{tabular}{ll}
+  {\em Název práce:} & ~ \\
+  \multicolumn{2}{l}{\odstavec{\textwidth}{\bf \nazevcz}} \\[5mm]
+  {\em Autor:} & \autor \\[5mm]
+  {\em Obor:} & \obor \\
+  {\em Druh práce:} & Diplomová práce \\[5mm]
+  {\em Vedoucí práce:} & \odstavec{\delka}{\vedouci \\ \pracovisteVed} \\[5mm]
+  {\em Konzultant:} & \odstavec{\delka}{\konzultant \\ \pracovisteKonz} \\[5mm]
+  \multicolumn{2}{l}{\odstavec{\textwidth}{{\em Abstrakt:} ~ \abstrCZ \\ }} \\[5mm]
+  {\em Klíčová slova:} & \odstavec{\delka}{\klicova} \\[20mm]
+
+  {\em Title:} & ~\\
+  \multicolumn{2}{l}{\odstavec{\textwidth}{\bf \nazeven}}\\[5mm]
+  {\em Author:} & \autor \\[5mm]
+  \multicolumn{2}{l}{\odstavec{\textwidth}{{\em Abstract:} ~ \abstrEN \\ }} \\[5mm]
+  {\em Key words:} & \odstavec{\delka}{\keyword}
+\end{tabular}
+
+% 6. strana: obsah práce je generován AUTOMATICKY
+\newpage  % SEM NESAHEJTE!
+\setcounter{page}{1}
+\pagenumbering{roman}
+\tableofcontents % SEM NESAHEJTE!
+
+%  7.strana: zde zadání SAMOTNÉ PRÁCE  
+%                                 - text se vkládá Z EXTERNÍCH SOUBORŮ
+%                                   (můžete ho také napsat přímo sem => smažte každý \input{...})
+\newpage % SEM NESAHEJTE!
+
+\chapter*{Úvod} \addcontentsline{toc}{chapter}{Úvod} % SEM NESAHEJTE!
+%\input{vnitrek_uvod.tex}  % text úvodu (bez nadpisu) je vkládán z jiného souboru; lze upravit jméno souboru, resp. smazat tento řádek a text úvodu napsat přímo sem (ale znepřehlední se to)
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\input{vnitrek_uvod.tex}
+
+% Následují texty kapitol. Smažete-li následující řádky (text chcete psát přímo sem), nezapomeňte na CHAPTER!!!
+\input{vnitrek_kapitola1.tex}  % Obecné seznámení s formáty XML a JSON
+\input{vnitrek_kapitola2.tex}  % Komprese dat
+\input{vnitrek_kapitola3.tex}  % Popis existujících kompresních algoritmů
+\input{vnitrek_kapitola4.tex}  % Přehled existujících kompresních algoritmů pro efektivní uchovávání dat ve formátech XML a JSON
+\input{vnitrek_kapitola5.tex}  % Vlastní implementace vybraných kompresních algoritmů
+\input{vnitrek_kapitola6.tex}  % Porovnání účinnosti komprese dat ve formátech XML a JSON
+
+
+\chapter*{Závěr} \addcontentsline{toc}{chapter}{Závěr}   % SEM NESAHEJTE!
+\input{vnitrek_zaver.tex}  % Závěr, je vkládán z jiného souboru
+
+%  Seznam použitých zdrojů  %%%%%%%%%%%%%%%%%%%%%%
+\newpage  % SEM NESAHEJTE!
+\renewcommand{\bibname}{Seznam použitých zdrojů} % SEM NESAHEJTE!
+\addcontentsline{toc}{chapter}{Seznam použitých zdrojů} % SEM NESAHEJTE!
+
+% !!! Literatura se řadí abecedně.
+\input{vnitrek_literatura.tex}  % text, který je vkládán z jináho souboru, MَŮŽETE ZMĚNIT NÁZEV souboru nebo smazat tento řádek a seznam literatury napsat přímo sem
+
+\newpage % SEM NESAHEJTE!
+%  PŘÍLOHY PRÁCE %%%%%%%%%%%%%%%%%%%%%%
+\appendix  % přílohy budou opravdu "Přílohy"  :-)     SEM NESAHEJTE!
+\addcontentsline{toc}{chapter}{Přílohy} % přidat položku do obsahu      SEM NESAHEJTE!
+
+\part*{Přílohy}  % SEM NESAHEJTE!
+\renewcommand{\appendixname}{Příloha} % aby se přílohy nejmenovaly "Dodatek"  SEM NESAHEJTE!
+
+% zde VYMAŽTE NÁZVY vkládaných souborů NEBO sem můžetete rovnou napsat text příloh (a smažte dva následující řádky)
+
+\input{vnitrek_priloha1.tex} % příloha 1: vložená z externího souboru
+%\input{vnitrek_priloha2.tex} % příloha 2: vložená z externího souboru
+
+\end{document} % SEM NESAHEJTE!
