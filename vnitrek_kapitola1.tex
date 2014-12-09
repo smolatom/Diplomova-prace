@@ -1,7 +1,29 @@
 \chapter{Obecné seznámení s formáty XML a JSON}
+V této kapitole seznámím čtenáře se značkovacím jazykem XML a následně s JSONem, formátem pro výměnu dat. Mým cílem je popsat základní charakteristiky a syntaxi obou formátů tak, abych byl já, a následně i čtenář, schopen pochopit v kapitole \ref{kapitolaSpecifickeAlgoritmy} principy a výhody vybraných algoritmů využívajících znalosti struktury datových souborů.
+
 \section{XML}
+Na základě značkovacího jazyka SGML (Standard Generalized Markup Language), jehož obecnost činí úplnou implementaci velmi náročnou, vznikl vybráním nejpoužívanějších možností nový značkovací jazyk XML (eXtensible Markup Language), je tedy podmnožinou jazyka SGML. XML je obecný a otevřený, jeho vývoj a standardizaci realizovalo konsorcium W3C (World Wide Web Consorcium) \cite{w3cxml}. XML umožňuje snadné vytváření konkrétních značkovacích jazyků pro popis dokumentů a dat ve standardizované, textově orientované podobě. 
+
 \subsection{Charakteristika}
+
+
 \subsection{Syntaktická analýza}
+V podstatě jde o textový dokument, je tvořen posloupností Unicode\footnote{Unicode je standard pro konzistentní kódování, reprezentaci a manipulaci znaků většiny světových abeced.} znaků, ve kterém se rozlišují dva základní prvky: elementy neboli značky a obsah. Při práci s XML je nutné mít na paměti, že je na dodržení syntaxe kladen velmi velký důraz. Při dodržení správného způsobu zápisu a pravidel, která budou popsána níže, lze dokument považovat za tzv. \textit{well-formed XML} \cite{w3cxml}.
+
+\subsubsection{Element}
+Základním prvkem každého XML dokumentu je element, který je vyznačen pomocí takzvaných tagů\footnote{Tag definuje formu části textu.}, mezi které může být vložen obsah. Počáteční i ukončující tag je dle definice \cite{w3cxml} složen z dvojice znamének \texttt{<} (menší než) a \texttt{>} (větší než), mezi kterými je zapsán název tagu a volitelně i atributy. Ukončovací tag má navíc před svým názvem znak \texttt{/} (lomeno). Při správné aplikaci pravidel může vypadat element například následujícím způsobem:
+$$\texttt{<název\_elementu název\_atributu=\textquotedblright hodnota atributu\textquotedblright></název\_elementu>}.$$
+V případě, že element neobsahuje žádný obsah, lze ho zkráceně zapsat jako tzv. prázdný element:
+$$\texttt{<název\_prázdného\_elementu />}.$$
+V případě nedodržení správné syntaxe může nastat problém při rozpoznávání zapsaných dat, což může mít za následek nekompatibilitu mezi různými systémy při výměně dat.
+
+\subsubsection{Atribut}
+Počáteční tag elementu může obsahovat atributy upřesňující jeho význam. Atribut je vždy složen ze svého názvu a hodnoty, které jsou odděleny znakem \texttt{=} (rovná se). Hodnota je navíc zapsána mezi dvojici znaků \texttt{\textquotedblright} (uvozovky) nebo \texttt{\textquoteright} (apostrof), přičemž hodnota může obsahovat jeden z těchto znaků tak, že se syntakticky nekříží. Následuje příklad atributu, jehož hodnota obsahuje znak \texttt{\textquoteright}:
+$$\texttt{název\_atributu=\textquotedblright hodnota atributu osahující znak \textquoteright\ (apostrof)\textquotedblright}.$$
+
+\subsubsection{Obsah}
+Vše, co není tagem, je v dokumentu považováno za obsah. Kromě obyčejného textu mohou být obsahem další vnořené elementy, komentáře, instrukce pro zpracování, reference a další. Vzhledem k tomu, že určité znaky mají v syntaxi XML speciální význam (např. \texttt{<}, \texttt{>}), využívají se pro jejich zápis znakové entity\footnote{Pomocí znakových entit (sekvence znaků) lze zapsat znaky, které neobsahuje zvolené znaková sada, nebo mají v použitém kontextu speciální význam.}. Úplný výčet toho, co může XML dokument obsahovat, je včetně pravidel definován v \cite{w3cxml}.
+
 \subsection{Parsování}
 \subsection{Výhody a nevýhody}
 \section{JSON}
@@ -23,7 +45,7 @@ Za hodnotu je v JSONu považován objekt, pole, číslo, řetězec, \texttt{true
 \end{figure}
 
 \subsubsection{Objekty}
-Objekt je reprezentován dvojicí složených závorek, uvnitř kterých je žádná nebo více dvojic klíč/hodnota přičemž klíč je řetězec. Klíč a hodnota jsou odděleny dvojtečkou a jednotlivé dvojice odděluje čárka.
+Objekt je reprezentován dvojicí složených závorek, uvnitř kterých je žádná nebo více dvojic klíč/hodnota, přičemž klíč je řetězec. Klíč a hodnota jsou odděleny dvojtečkou a jednotlivé dvojice odděluje čárka.
 
 \begin{figure}[!htb]
 \centering
@@ -53,6 +75,7 @@ Pole je složeno z dvojice hranatých závorek, mezi kterými může být nula n
 \end{figure}
 
 \subsubsection{Řetězce}
+Řetězec je posloupnost Unicode znaků uvozená a zakončená znakem \texttt{\textquotedblright} (uvozovky). Mezi uvozovky mohou být zapsány všechny znaky kromě speciálních znaků, které jsou uvozeny tzv. únikovým znakem \texttt{\textbackslash} (zpětné lomítko), těmito znaky jsou například \texttt{\textquotedblright}, \texttt{\textbackslash}, \texttt{t} (znak tabulátoru), \texttt{n} (znak posunu kurzoru na nový řádek) a \texttt{r} (znak posunu kurzoru na začátek řádku, známý jako návrat vozíku) a další. Kompletní výčet je možné vidět na obrázku \ref{retezec} nebo v \cite{json}. Navíc je možné každý znak zapsat pomocí kombinace \texttt{\textbackslash u} a čtyřmístného hexadecimálního čísla odpovídajícího Unicode kódu požadovaného znaku. Řetězec obsahující pouze zpětné lomítko můžeme tedy zapsat následujícími způsoby: \texttt{\textquotedblright\textbackslash\textbackslash\textquotedblright}, \texttt{\textquotedblright\textbackslash u005c\textquotedblright} nebo \texttt{\textquotedblright\textbackslash u005C\textquotedblright} (u hexadecimálních čísel \texttt{A-F} nezáleží na velikosti).
 
 \begin{figure}[!htb]
 \centering
