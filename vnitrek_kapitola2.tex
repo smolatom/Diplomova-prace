@@ -20,9 +20,10 @@ Naopak v případě bezeztrátových metod je při kompresi zachována veškerá
 jsou rekonstruována původní data. Těchto metod se využívá převážně tam, kde není možné původní data jakkoliv pozměnit. Například data ve formátech XML a JSON, kterým se věnuji v této práci, si nemůžeme dovolit pozměnit (přestanou mít původní význam), nebo dokonce ztratit.
 
 \section{Charakteristika komprese}
-Nejdůležitější charakteristikou je tzv. kompresní poměr, který vyjadřuje velikost komprimovaných dat vůči původním, lze ho zapsat následujícím  vztahem:
+Kompresní algoritmy lze hodnotit z mnoha různých úhlů pohledu. Můžeme měřit složitost algoritmu, rychlost, jakou data komprimována a dekomprimována (to může být ovlivněno výkonem stroje, na kterém algoritmus běží), jak moc odpovídají rekonstruovaná data původním atd.
+Jednou z nejčastějších charakteristik je, logicky ze smyslu komprese vy\-plý\-va\-jí\-cí, tzv. kompresní poměr, který vyjadřuje velikost komprimovaných dat vůči původním, lze ho zapsat následujícím  vztahem:
 \begin{equation}
-\texttt{kompresní poměr} = \frac{\texttt{délka komprimovaných dat}}{\texttt{délka původních dat}}.
+\texttt{kompresní poměr} = \frac{\texttt{délka původních dat}}{\texttt{délka komprimovaných dat}}.
 \end{equation}
 
 Další sledovanou charakteristikou je tzv. úspora místa, která je vyjádřena jako:
@@ -30,6 +31,6 @@ Další sledovanou charakteristikou je tzv. úspora místa, která je vyjádřen
 \texttt{úspora místa} = \texttt{1 - kompresní poměr$^{-1}$}.
 \end{equation}
 
-Při volbě vhodné metody nás také zajímají časy potřebné pro kompresi i dekompresi.
+Mějme například 2D obrázek o velikosti $256\times256$ pixelů, který zabírá 65536 bytů. Obrázek zkomprimujeme a zabírá-li komprimovaná verze 16384 bytů, můžeme říct, že kompresní poměr je $4:1$ a úspora místa 75 \%. 
 
-\section{Kompresní algoritmy pro data v obecném formátu}
+\section{Míra informace v datech}
