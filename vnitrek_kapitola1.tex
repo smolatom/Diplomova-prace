@@ -24,12 +24,31 @@ $$\texttt{název\_atributu=\textquotedblright hodnota atributu osahující znak 
 \subsubsection{Obsah}
 Vše, co není tagem, je v dokumentu považováno za obsah. Kromě obyčejného textu mohou být obsahem další vnořené elementy, komentáře, instrukce pro zpracování, reference a další. Vzhledem k tomu, že určité znaky mají v syntaxi XML speciální význam (např. \texttt{<}, \texttt{>}), využívají se pro jejich zápis znakové entity\footnote{Pomocí znakových entit (sekvence znaků) lze zapsat znaky, které neobsahuje zvolená znaková sada, nebo mají v použitém kontextu speciální význam.}. Úplný výčet toho, co může XML dokument obsahovat, je včetně pravidel definován v \cite{w3cxml}.
 
+\subsection{Vzorový příklad}
+\label{xmlpriklad}
+Na následujících řádcích je zapsán XML element typu \texttt{Person}, oblíbená postavička Homer Simpson ze seriálu The Simpsons, který kromě jiného obsahuje vnořený element typu \texttt{Relatives}, který zde slouží jako kontejner s Homerovými příbuznými.
+
+\texttt{\small<Person>\\
+\hspace*{2mm}<FirstName>Homer</FirstName>\\
+\hspace*{2mm}<LastName>Simpson</LastName>\\
+\hspace*{2mm}<Relatives>\\
+\hspace*{4mm}<Relative>Grandpa</Relative>\\
+\hspace*{4mm}<Relative>Marge</Relative>\\
+\hspace*{4mm}<Relative>Bart</Relative>\\
+\hspace*{4mm}<Relative>Lisa</Relative>\\
+\hspace*{4mm}<Relative>Maggie</Relative>\\
+\hspace*{2mm}</Relatives>\\
+</Person>}
+
+
 \subsection{Parsování}
-\subsection{Výhody a nevýhody}
+
+
 \section{JSON}
-JSON neboli JavaScript Object Notation je odlehčený způsob zápisu (formátování) dat. Tento textový formát je nezávislý na počítačové platformě a je čitelný pro člověka. JSON je založen na dvou univerzálních datových strukturách: kolekce dvojic klíč/hodnota a seřazený seznam hodnot, které podporují v nějaké formě asi všechny známé moderní programovací jazyky. Díky těmto vlastnostem se JSON stal velmi oblíbeným formátem pro vzájemnou výměnu dat.
+JSON neboli JavaScript Object Notation je odlehčený způsob zápisu (formátování) dat. Tento textový formát je nezávislý na počítačové platformě a je čitelný pro člověka. JSON je založen na dvou univerzálních datových strukturách: kolekce dvojic klíč/hodnota s unikátními klíči (tzv. associative array) a seřazený seznam hodnot (tzv. array), které podporují v nějaké formě asi všechny známé moderní programovací jazyky. Díky těmto vlastnostem se JSON stal velmi oblíbeným formátem pro vzájemnou výměnu dat.
 
 \subsection{Charakteristika}
+
 
 \subsection{Syntaktická analýza}
 Jak již bylo zmíněno, je JSON textový formát a je tedy posloupností tokenů tvořených z Unicode znaků. Sada tokenů obsahuje šest strukturálních tokenů: \texttt{[} (levá hranatá závorka), \texttt{\{} (levá složená závorka), \texttt{]} (pravá hranatá závorka), \texttt{\}} (pravá složená závorka), \texttt{:} (dvojtečka) a \texttt{,} (čárka); dále obsahuje znakové řetězce, čísla a tři doslovné tokeny: \texttt{true}, \texttt{false} a \texttt{null}.
@@ -84,5 +103,27 @@ Pole je složeno z dvojice hranatých závorek, mezi kterými může být nula n
 \label{retezec}
 \end{figure}
 
+\subsection{Vzorový příklad}
+Stejně jako ve vzorovém příkladě \ref{xmlpriklad} ke XML, je zde popsána postavička Homera Simpsona včetně příbuzných, tentokrát ale v notaci JSON. Jde o objekt složený ze tří atributů, první dva mají hodnoty typu řetězec, k poslednímu \texttt{relatives} ale přísluší hodnota typu pole, ve kterém je vloženo pět příbuzných -- hodnot typu řetězec.
+
+\texttt{\small\{\\
+\hspace*{2mm}"firstName": "Homer",\\
+\hspace*{2mm}"lastName": "Simpson",\\
+\hspace*{2mm}"relatives": [\\
+\hspace*{4mm}"Grandpa",\\
+\hspace*{4mm}"Marge",\\
+\hspace*{4mm}"Bart",\\
+\hspace*{4mm}"Lisa",\\
+\hspace*{4mm}"Maggie"\\
+\hspace*{2mm}]\\
+\} }
+
 \subsection{Parsování}
-\subsection{Výhody a nevýhody}
+
+\section{Vzájemné porovnání XML a JSON}
+
+%Vybrat nějaké argumenty z diskusí a zapsat je tady pro porovnání
+
+Na téma, zda je XML obecně lepší než JSON nebo naopak, bylo vedeno již nespočet diskusí. Argumentace obou stran diskuse je obvykle podložena jak teoretickou znalostí formátů, tak i praktickým použitím v reálných projektech. I přes to si myslím, že žádná diskuse nepřinesla jednoznačnou odpověď na výše položenou otázku, což samozřejmě pro některé konkrétní případy použití neplatí a volba jednoho z formátů je nutná nebo alespoň výhodnější. Ze svého zkoumání této problematiky si ale odnáším jeden podstatný závěr, který bych chtěl čtenáři zdůraznit: Vždy záleží na konkrétní situaci. Před samotným rozhodnutím, který z formátů využít, je vhodné zvážit důležité požadavky a do těchto úvah zahrnout klidně i další z existujících datových formátů.
+
+Podíváme-li se znovu na vzorové příklady zápisu dat nebo položíme-li si vedle sebe stejná data zapsaná do obou formátů (viz příloha \ref{prilohaPorovnaniXmlJson}), můžeme lehce vidět vzájemnou podobnost. Ve své práci proto vycházím z předpokladu, že jsou oba formáty z hlediska toho, jaká data lze do nich zapsat, ekvivalentní. Respektive budu pro další porovnání používat pouze takový druh dat, který bude tento předpoklad splňovat.

@@ -1,0 +1,69 @@
+\chapter{Název/obsah přílohy}
+\label{prilohaa}
+
+\section{Porovnání XML a JSON}
+\label{prilohaPorovnaniXmlJson}
+\begin{minipage}{0.5\textwidth}
+{\Large XML}\\\\
+\texttt{\small
+<widget>\\
+\hspace*{2mm}<debug>on</debug>\\
+\hspace*{2mm}<window\\
+\hspace*{4mm}title="Sample Widget\textquotedblright>
+\hspace*{4mm}<name>main\_window</name>\\
+\hspace*{4mm}<width>500</width>\\
+\hspace*{4mm}<height>500</height>\\
+\hspace*{2mm}</window>\\
+\hspace*{2mm}<image\\
+\hspace*{4mm}src="Images/Sun.png"\\
+\hspace*{4mm}name="sun1\textquotedblright>\\
+\hspace*{4mm}<hOffset>250</hOffset>\\
+\hspace*{4mm}<vOffset>250</vOffset>\\
+\hspace*{4mm}<alignment>center</alignment>\\
+\hspace*{2mm}</image>\\
+\hspace*{2mm}<text\\
+\hspace*{4mm}data="Click Here"\\
+\hspace*{4mm}size="36"\\
+\hspace*{4mm}style="bold\textquotedblright>\\
+\hspace*{4mm}<name>text1</name>\\
+\hspace*{4mm}<hOffset>250</hOffset>\\
+\hspace*{4mm}<vOffset>100</vOffset>\\
+\hspace*{4mm}<alignment>center</alignment>\\
+\hspace*{4mm}<onMouseUp>sun1.opacity =\\
+\hspace*{6mm}(sun1.opacity / 100) * 90;\\
+\hspace*{4mm}</onMouseUp>\\
+\hspace*{2mm}</text>\\
+</widget>}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+{\Large JSON}\\\\
+\texttt{\small
+\{ "widget": \{\\
+\hspace*{2mm}"debug": "on",\\
+\hspace*{2mm}"window": \{\\
+\hspace*{4mm}"title": "Sample Widget",\\
+\hspace*{4mm}"name": "main\_window",\\
+\hspace*{4mm}"width": 500,\\
+\hspace*{4mm}"height": 500\\
+\hspace*{2mm}\},\\
+\hspace*{2mm}"image": \{\\ 
+\hspace*{4mm}"src": "Images/Sun.png",\\
+\hspace*{4mm}"name": "sun1",\\
+\hspace*{4mm}"hOffset": 250,\\
+\hspace*{4mm}"vOffset": 250,\\
+\hspace*{4mm}"alignment": "center"\\
+\hspace*{2mm}\},\\
+\hspace*{2mm}"text": \{\\
+\hspace*{4mm}"data": "Click Here",\\
+\hspace*{4mm}"size": 36,\\
+\hspace*{4mm}"style": "bold",\\
+\hspace*{4mm}"name": "text1",\\
+\hspace*{4mm}"hOffset": 250,\\
+\hspace*{4mm}"vOffset": 100,\\
+\hspace*{4mm}"alignment": "center",\\
+\hspace*{4mm}"onMouseUp": "sun1.opacity =\\
+\hspace*{6mm}(sun1.opacity / 100) * 90;"\\\\
+\hspace*{2mm}\}\\
+\}\}
+}
+\end{minipage}
