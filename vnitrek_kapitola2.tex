@@ -35,7 +35,7 @@ Mějme například 2D obrázek o velikosti $256\times256$ pixelů, který zabír
 \section{Míra informace v datech}
 Než se budeme moci věnovat jednotlivým kompresním metodám, připomeňme stručně myšlenky z teorie informace, které poskytly základ pro rozvoj metod bezeztrátové komprese. V této části předpokládám čtenářovu znalost základů teorie pravděpodobnosti a statistiky.
 
-Informační entropie\footnote{Nazývaná též jako Shannonova po Claudu E. Shannonovi, který zformuloval klíčové poznatky.}, jakožto míra neurčitosti v datech, nám pomůže lépe porozumět principům komprese. Představme si dva zdroje (označím je $\mathbf{Z}_1$ a $\mathbf{Z}_2$), které produkují zprávy složené ze symbolů (znaků) zdrojové abecedy $\mathbb{A} = \{\alpha, \beta, \gamma, \delta\}$. Oba zdroje generují znaky zprávy náhodně, pro zdroj $\mathbf{Z}_1$ však platí, že mají všechny znaky stejnou pravděpodobnost výskytu a to 25 \%. Pro zdroj $\mathbf{Z}_2$ jsou pravděpodobnosti výskytu popsány v tabulce \ref{pstVyskytu}. Který ze zdrojů produkuje více informace?
+Informační entropie\footnote{Nazývaná též Shannonova po Claudu E. Shannonovi, který zformuloval klíčové poznatky.}, jakožto míra neurčitosti v datech, nám pomůže lépe porozumět principům komprese. Představme si dva zdroje (označím je $\mathbf{Z}_1$ a $\mathbf{Z}_2$), které produkují zprávy složené ze symbolů (znaků) zdrojové abecedy $\mathbb{A} = \{\alpha, \beta, \gamma, \delta\}$. Oba zdroje generují znaky zprávy náhodně, pro zdroj $\mathbf{Z}_1$ však platí, že mají všechny znaky stejnou pravděpodobnost výskytu a to 25 \%. Pro zdroj $\mathbf{Z}_2$ jsou pravděpodobnosti výskytu popsány v tabulce \ref{pstVyskytu}. Který ze zdrojů produkuje více informace?
 
 \begin{table}[!htb]
 \centering
@@ -83,7 +83,7 @@ Entriopie zdroje informace $X \thicksim (\mathcal{X}, p(x))$ je veličina $$H(X)
 \end{defi}
 
 \subsection{Entropie a komprese}
-Když chceme (nejen) komprimovat digitální data, musíme je rozdělit na malé kousky, např. obrázek na pixely, textová data na znaky. To nám umožní zpracovat tato data jako posloupnost symbolů. Jednotlivé symboly pak můžeme reprezentovat s použitím nějakého kódu. Umíme-li zprávy vysílat a přijímat pouze v binární soustavě, vytvoříme kód\footnote{Takové kódy provází lidstvo od nepaměti, např. kouřové signály, Morseova abeceda, reprezentace dat v počítačích atd.} složený ze znaků kódové abecedy $\mathbb{B} = \{0,1\}$.
+Když chceme komprimovat digitální data, musíme je rozdělit na malé kousky, např. obrázek na pixely, textová data na znaky. To nám umožní zpracovat tato data jako posloupnost symbolů. Jednotlivé symboly pak můžeme reprezentovat s použitím nějakého kódu. Umíme-li zprávy vysílat a přijímat pouze v binární soustavě, vytvoříme kód\footnote{Takové binární kódy provází lidstvo již velice dlouho, např. kouřové signály, kódování znaků v Morseově abecedě.} složený ze znaků kódové abecedy $\mathbb{B} = \{0,1\}$.
 
 Vraťme se nyní zpět k abecedě $\mathbb{A}$ a představme si zdroj $\mathbf{Z}$, který generuje zprávy složené ze znaků abecedy $\mathbb{A}$. Tento zdroj má pravděpodobnosti výskytu jednotlivých znaků odpovídající zdroji $\mathbf{Z}_2$, což my zatím ale nevíme. Jako příklad můžeme mít za úkol komprimovat text obsahující 1000 znaků vygenerovaných zdrojem $\mathbf{Z}$. V takovém případě intuitivně přiřadíme jednotlivým zdrojovým znakům nejkratší možná kódová slova viz kód $\kappa_1$ v tabulce \ref{kodovaSlovaZ1}. Tato slova mají délku 2, což znamená, že potřebujeme průměrně 2 bity na znak. 
 
@@ -103,7 +103,7 @@ $\delta$ & 00\\
 \label{kodovaSlovaZ1}
 \end{table}
 
-Pokud analýzou zdroje $\mathbf{Z}$ ale zjistíme, že pravděpodobnosti výskytu odpovídají zdroji $\mathbf{Z}_2$ (viz tabulka \ref{pstVyskytu}), můžeme znakům přiřadit jiná kódová slova (viz tabulka \ref{kodovaSlovaZ2}, která budou brát ohled na nové pravděpodobnosti výskytu. Tento kód $\kappa_2$ je tzv. Huffmanův kód (viz kapitola 3 v \cite{teorieKodovani}) a potřebuje průměrně 1,7 bitu na znak, způsob jeho vytvoření je popsán v části \textcolor{red}{reference na Huffmanovo kódování} nebo v \cite{teorieKodovani}.
+Pokud analýzou zdroje $\mathbf{Z}$ ale zjistíme, že pravděpodobnosti výskytu odpovídají zdroji $\mathbf{Z}_2$ (viz tabulka \ref{pstVyskytu}), můžeme znakům přiřadit jiná kódová slova (viz tabulka \ref{kodovaSlovaZ2}), která budou brát ohled na nové pravděpodobnosti výskytu. Tento kód $\kappa_2$ je tzv. Huffmanův kód (viz kapitola 3 v \cite{teorieKodovani}) a potřebuje průměrně 1,7 bitu na znak, způsob jeho vytvoření je popsán v části \textcolor{red}{reference na Huffmanovo kódování} nebo v \cite{teorieKodovani}.
 
 \begin{table}[!htb]
 \centering
@@ -123,6 +123,6 @@ $\delta$ & 001\\
 
 Podíváme-li se na obrázky \ref{rozhodovaciStromZ1} a \ref{rozhodovaciStromZ2} a příslušný výpočet průměrného počtu otázek na zjištění znaku, můžeme vidět jisté souvislosti. Například když slova Ano, resp. Ne na hranách rozhodovacího stromu nahradíme čísly 1, resp. 0, dostaneme čtením od kořene k listům odpovídající kódová slova. Stejně tak průměrný počet otázek na zjištění znaku odpovídá střední délce zvoleného kódování (viz definice 7 v \cite{teorieKodovani}).
 
-K jaké úspoře dojde? K zakódování 1000 znaků výše zmíněného textu pomocí kódu $\kappa_1$ potřebujeme 2000 bitů, ale při použití kódu $\kappa_2$ nám bude stačit pouze 1700 bitů. Úspora je tedy 300 bitů. Na otázku, zda je možné tuto úsporu ještě zvýšit, nelze odpovědět jenom ani nebo ne. Pokud zkrátíme délku některých kódových slov v kódu $\kappa_2$, stane se zakódovaná zpráva dvojznačnou a zpětně nedekódovatelnou. Kódujme například znak $\delta$ kódovým slovem 0, potom sekvence 01 může znamenat jak $\delta\alpha$, tak i $\beta$. Abychom odstranili tento problém, museli bychom mezi kódová slova vložit oddělovač, čímž ale zakódovanou zprávu prodloužíme a k požadované úspoře nedojde.
+K jaké úspoře dojde? K zakódování 1000 znaků výše zmíněného textu pomocí kódu $\kappa_1$ potřebujeme 2000 bitů, ale při použití kódu $\kappa_2$ nám bude stačit pouze 1700 bitů. Úspora je tedy 300 bitů. Na otázku, zda je možné tuto úsporu ještě zvýšit, nelze odpovědět jenom ano nebo ne. Pokud zkrátíme délku některých kódových slov v kódu $\kappa_2$, stane se zakódovaná zpráva dvojznačnou a zpětně nedekódovatelnou. Kódujme například znak $\delta$ kódovým slovem 0, potom sekvence 01 může znamenat jak $\delta\alpha$, tak i $\beta$. Abychom odstranili tento problém, museli bychom mezi kódová slova vložit oddělovač, čímž ale zakódovanou zprávu prodloužíme a k požadované úspoře nedojde.
 
 Již Claude E. Shannon tvrdil, že komprese má limit a tím je vždy entropie zdrojové zprávy. Čím je entropie nižší, tím vyšší je možnost komprese. Naopak čím je entropie vyšší, kvůli nepředvídatelnosti, schopnost komprese se snižuje. Pokud bychom chtěli komprimovat až za tento limit, museli bychom nutně část informace vypustit, což je ale přesně princip ztrátové komprese, kterou si nemůžeme vždy dovolit.
