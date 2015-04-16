@@ -87,6 +87,6 @@ Výsledný strom je zobrazen na obrázku \ref{adaptivniHuffmanStrom}, celý post
 Výsledná zakódovaná zpráva je tvaru \texttt{01100|0|01000|00|10010|101|11|0|1|01|000|01111|1001|11}, kde jsem pro přehlednost vložil oddělovač \uv{\texttt{|}} oddělující jednotlivé významné bloky.
 
 \subsection{Dekódování zprávy}
-Přečteme $e=4$ bitů znaků, jejich hodnota jakožto čtyřbitového čísla je 6, což je menší než $r=10$. Přečteme další znak, hodnota tohoto pětibitového čísla je 12 a tedy jsme přečetli symbol $a_13 = \mathrm{M}$. Aktualizujeme strom. Následuje 0, která je kódovým slovem pro uzel NYT, po něm vždy následuje nezakódovaný symbol. Obdobně jako pro M přečteme symbol $a_8 = \mathrm{I}$. Aktualizujeme strom. Následuje kódové slovo uzlu NYT a symbol $a_19 = \mathrm{S}$. Dále čteme kódové slovo uzlu pro symbol S. Takto pokračujeme až do konce zakódované zprávy.
+Přečteme $e=4$ bitů znaků, jejich hodnota jakožto čtyřbitového čísla je 6, což je menší než $r=10$. Přečteme další znak, hodnota tohoto pětibitového čísla je 12 a tedy jsme přečetli symbol $a_{13} = \mathrm{M}$. Aktualizujeme strom. Následuje 0, která je kódovým slovem pro uzel NYT, po něm vždy následuje nezakódovaný symbol. Obdobně jako pro M přečteme symbol $a_8 = \mathrm{I}$. Aktualizujeme strom. Následuje kódové slovo uzlu NYT a symbol $a_{19} = \mathrm{S}$. Dále čteme kódové slovo uzlu pro symbol S. Takto pokračujeme až do konce zakódované zprávy.
 
 \section{Aritmetické kódování}
