@@ -14,6 +14,12 @@
 \usepackage{latexsym}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{multirow}
+
+%\usepackage{regexpatch}
+%\makeatletter
+%\xpatchparametertext\@cline{-}{\cA-}{}{}
+%\makeatothe
+
 \graphicspath{{pics/}}
 
 \oddsidemargin=10mm   % levý okraj větší (kvůli vazbě)
@@ -193,10 +199,12 @@ Děkuji Ing. Tomáši Liškovi, Ph.D. za vedení mé diplomové práce a za podn
 % Následují texty kapitol. Smažete-li následující řádky (text chcete psát přímo sem), nezapomeňte na CHAPTER!!!
 \input{vnitrek_kapitola1.tex}  % Obecné seznámení s formáty XML a JSON
 \input{vnitrek_kapitola2.tex}  % Komprese dat
-\input{vnitrek_kapitola3.tex}  % Popis existujících kompresních algoritmů
-\input{vnitrek_kapitola4.tex}  % Přehled existujících kompresních algoritmů pro efektivní uchovávání dat ve formátech XML a JSON
-\input{vnitrek_kapitola5.tex}  % Vlastní implementace vybraných kompresních algoritmů
-\input{vnitrek_kapitola6.tex}  % Porovnání účinnosti komprese dat ve formátech XML a JSON
+\input{vnitrek_kapitola3.tex}  % Statistické techniky komprese
+\input{vnitrek_kapitola4.tex}  % Slovníkové techniky komprese
+\input{vnitrek_kapitola5.tex}  % Existujících algoritmy pro kompresi XML
+\input{vnitrek_kapitola6.tex}  % Existujících algoritmy pro kompresi JSON
+\input{vnitrek_kapitola7.tex}  % Vlastní implementace vybraných kompresních algoritmů
+\input{vnitrek_kapitola8.tex}  % Porovnání účinnosti komprese dat ve formátech XML a JSON
 
 
 \chapter*{Závěr} \addcontentsline{toc}{chapter}{Závěr}   % SEM NESAHEJTE!
