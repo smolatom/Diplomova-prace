@@ -60,6 +60,7 @@ M & 1 & 111\\
 \end{table}
 
 \section{Adaptivní Huffmanovo kódování}
+\label{adaptivniHuffman}
 Adaptivní Huffmanovo kódování konstruuje strom při kompresi i dekompresi posloupností stejných kroků, tzv. mirroring. Strom je v každém kroku upraven tak, aby produkoval nejkratší kód pro do té doby zpracovanou část dat. Jak se strom mění, mění se i kódy přiřazené jednotlivým symbolům. Listy stromu obsahují symboly a jejich četnosti výskytu, vnitřní uzly obsahují kumulovanou četnost svých potomků.
 
 Implementovaných verzí existuje několik. Níže je představena verze, kterou navrhl Jeffrey S. Vitter a ve které všechny uzly navíc obsahují pořadové číslo, které je využito při rozhodování při aktualizaci stromu. Také se zde využívají tzv. bloky -- množiny uzlů se stejnou četností. Diagram aktualizace stromu po přečtení jednoho symbolu je možné vidět v příloze \textcolor{red}{odkaz}, způsob kódování, resp. dekódování zprávy na diagramu \textcolor{red}{odkaz}, resp. \textcolor{red}{odkaz}.
