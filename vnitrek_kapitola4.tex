@@ -1,10 +1,10 @@
 \chapter{Slovníkové techniky komprese}
-V předchozí kapitole jsme si představili kompresní techniky, které předpokládají zdroje generující posloupnosti nezávislých symbolů a snaží se vytvořit statistický model dat. Účinnost komprese pak závisí  na přesnosti modelu. Slovníkové techniky, které popíši v této kapitole, nepoužívají statistický model ani kódy s různou délkou kódových slov. Místo toho vyhledávají opakující se části textu, tzv. fráze, ty udržují ve slovníku a na výstup vypisují pouze odkaz na příslušné místo ve slovníku. Slovníkem zde může být jak část již zpracovaných dat, tak i vlastní struktura v paměti. Podobně jako u statistických modelů existují statické a adaptivní slovníky.
+V předchozí kapitole jsme si představili kompresní techniky, které předpokládají zdroje generující posloupnosti nezávislých symbolů a snaží se vytvořit statistický model dat. Účinnost komprese pak závisí  na přesnosti modelu. Slovníkové techniky, které popíšu v~této kapitole, nepoužívají statistický model ani kódy s různou délkou kódových slov. Místo toho vyhledávají opakující se části textu, tzv. fráze, ty udržují ve slovníku a na výstup vypisují pouze odkaz na příslušné místo ve slovníku. Slovníkem zde může být jak část již zpracovaných dat, tak i vlastní struktura v paměti. Podobně jako u statistických modelů existují statické a adaptivní slovníky.
 
 \section{Základy slovníkové komprese}
-Základní princip a problematiku slovníkové komprese si můžeme představit na jednoduchém příkladu. Mějme text složený ze slov délky 5, kde jsou slova libovolně složena z arabských číslic a písmen A--F. Takováto abeceda má tedy 16 znaků. Pokud budeme předpokládat, že mají všechny znaky stejnou pravděpodobnost výskytu, budeme pro vytvoření binárního kódu potřebovat 4 bitů na znak a 20 bitů k zakódování každého slova (těchto slov je $2^{20}$). Nyní vytvoříme statický slovník, který bude obsahovat 256 nejčastěji se vyskytujících slov.
+Základní princip a problematiku slovníkové komprese si můžeme představit na jednoduchém příkladu. Mějme text složený ze slov délky 5, kde jsou slova libovolně složena z arabských číslic a písmen A--F. Takováto abeceda má tedy 16 znaků. Pokud budeme předpokládat, že mají všechny znaky stejnou pravděpodobnost výskytu, budeme pro vytvoření binárního kódu potřebovat 4 bity na znak a 20 bitů k zakódování každého slova (těchto slov je $2^{20}$). Nyní vytvoříme statický slovník, který bude obsahovat 256 nejčastěji se vyskytujících slov.
 
-Při kompresi budeme na výstup zapisovat jeden bit charakterizující, zda je, resp. není zpracovávané slovo obsažen ve slovníku (např. 1, resp. 0) a osmibitový index slova ve slovníku, nebo dvacetibitový kód slova. To znamená, že pro slova ve slovníku potřebujeme pouze 9 bitů, zatímco pro slova, která ve slovníku nejsou, potřebujeme bitů 21.
+Při kompresi budeme na výstup zapisovat jeden bit charakterizující, zda je, resp. není zpracovávané slovo obsaženo ve slovníku (např. 1, resp. 0) a osmibitový index slova ve slovníku, resp. dvacetibitový kód slova. To znamená, že pro slova ve slovníku potřebujeme pouze 9 bitů, zatímco pro slova, která ve slovníku nejsou, potřebujeme bitů 21.
 
 Pro to, aby byl takovýto způsob komprese účinný, je rozhodující pravděpodobnost, že je zpracovávané slovo ve slovníku. To lze vyjádřit pomocí vzorce $R = Sp + T(1-p)$, kde $R$ je průměrný počet bitů na slovo, $S$ počet bitů pro slovo ve slovníku, $T$ počet bitů pro slovo mimo slovník a $p$ je pravděpodobnost, že je zpracovávané slovo ve slovníku. V našem případě musí být $R < 20$, což je splněno pro $p\geq 0,08\bar{3}$.
 
@@ -13,15 +13,15 @@ Pro pravděpodobnost $p$ blízkou číslu $0,08\bar{3}$ je účinnost komprese n
 \subsection{Typy slovníků}
 V praxi jsou známy dva typy slovníků: statický a adaptivní. Podobně jako v případě statistických technik (viz \ref{pravdepodobnostniModel}) komprese je volba kompresního algoritmu se statickým slovníkem nejvhodnější, pokud známe dobře zdroj a komprimujeme zprávy výhradně tohoto zdroje. Proti tomu adaptivní slovník lze použít na neznámá data.
 
-Většina kompresních algoritmů s adaptivním slovníkem je založena na pracích pánů Abrahama Lempela a Jacoba Ziva, kteří v letech 1977 a 1978 představili dva různé přístupy k vytváření slovníku. Podle nich jsou vzniklé algoritmy označovány jako algoritmy rodiny LZ77, resp. LZ78.
+Většina kompresních algoritmů s adaptivním slovníkem je založena na pracích pánů Abrahama Lempela a Jacoba Ziva, kteří v letech 1977 a 1978 představili dva různé přístupy k~vytváření slovníku. Podle nich jsou vzniklé algoritmy označovány jako algoritmy rodiny LZ77, resp. LZ78.
 
 \section{LZ77}
-Princip toho algoritmu je založen na okně klouzajícím po zpracovávaných datech. Toto okno se dělí na dvě podokna (viz obrázek \ref{oknoLZ77}). V prvním je část ještě nezpracovaných dat. Ve druhém je pak část již zkomprimovaných dat, ve které jsou vyhledávány fráze a tedy funguje jako slovník. Velikost tohoto podokna je pevně daná jakožto kompromis mezi co největší velikostí, která zvyšuje pravděpodobnost nalezení fráze, a co nejmenší velikostí, která snižuje dobu vyhledávání fráze.
+Princip tohoto algoritmu je založen na okně klouzajícím po zpracovávaných datech. Toto okno se dělí na dvě podokna (viz obrázek \ref{oknoLZ77}). V prvním je část ještě nezpracovaných dat. Ve druhém je pak část již zkomprimovaných dat, ve které jsou vyhledávány fráze a tedy funguje jako slovník. Velikost tohoto podokna je pevně daná jakožto kompromis mezi co největší velikostí, která zvyšuje pravděpodobnost nalezení fráze, a co nejmenší velikostí, která snižuje dobu vyhledávání fráze.
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[trim=60 300 149 60, clip, angle=0, width=150mm]{oknoLZ77}
-\caption{Schéma algoritmu LZ77 jenž využívá klouzavé okno}
+\caption{Schéma algoritmu LZ77, jenž využívá klouzavé okno}
 \label{oknoLZ77}
 \end{figure}
 
@@ -57,10 +57,10 @@ Krok & Text & Fráze & Kódování\\
 \end{table}
 
 \subsection{Princip dekomprese}
-Postup dekomprese je mnohem jednodušší a rychlejší než kompresní algoritmus. V paměti si udržuje pouze data slovníku, ve kterém jednoduše vyhledává fráze dle postupně dekódovaných trojic. Offset a délka fráze určují frázi jednoznačně a není tedy nutné prohledávat celý slovník. LZ77 je tedy asymetrický kompresní algoritmus.
+Postup dekomprese je mnohem jednodušší a rychlejší než kompresní algoritmus. V paměti si udržuje pouze data slovníku, ve kterém jednoduše vyhledává fráze dle postupně de\-kó\-do\-va\-ných trojic. Offset a délka fráze určují frázi jednoznačně a není tedy nutné prohledávat celý slovník. LZ77 je tedy asymetrický kompresní algoritmus.
 
 \subsection{Variace algoritmu LZ77}
-Vylepšených verzí algoritmu LZ77 vzniklo několik a lze je rozdělit do skupin dle způsobu zlepšení. První skupina je zaměřena na efektivní kódování výstupu, tj. výše popsaných trojic, pomocí kódu s proměnlivou délkou slov. Reprezentantem takového kódóvání jsou semiadaptivní a adaptivní Huffmanovo kódování (viz \ref{huffmanovoKodovani} a \ref{adaptivniHuffman}). Další skupina pracuje s proměnlivou velikostí klouzavého okna, což pro případ jeho zvětšení nese požadavek na implementaci efektivnějších vyhledávacích algoritmů.
+Vylepšených verzí algoritmu LZ77 vzniklo několik a lze je rozdělit do skupin dle způsobu zlepšení. První skupina je zaměřena na efektivní kódování výstupu, tj. výše popsaných trojic, pomocí kódu s proměnlivou délkou slov. Reprezentantem takového kódóvání jsou semiadaptivní a adaptivní Huffmanovo kódování (viz \ref{huffmanovoKodovani} a \ref{adaptivniHuffman}). Další skupina pracuje s~proměnlivou velikostí klouzavého okna, což pro případ jeho zvětšení nese požadavek na implementaci efektivnějších vyhledávacích algoritmů.
 
 Velmi známá verze je algoritmus LZSS, který odstraňuje neefektivní chování původního algoritmu, kdy je v jednom kroku kódován i následující znak, kterým může začínat fráze existující ve slovníku. Místo toho jsou nalezené fráze kódovány pomocí trojice (příznak, offset, délka fráze) a samotné znaky, které nejsou nalezeny ve slovníku, pomocí dvojice (příznak, znak).
 
@@ -78,14 +78,14 @@ V případě, že je slovník zcela naplněn, algoritmus LZ78 neříká přesně
 \begin{figure}[!htb]
 \centering
 \includegraphics[trim=50 220 170 50, clip, angle=0, width=150mm]{slovnikLZ78}
-\caption{Schéma algoritmu LZ78 jenž využívá vlastní slovník}
+\caption{Schéma algoritmu LZ78, jenž využívá vlastní slovník}
 \label{slovnikLZ78}
 \end{figure}
 
 Vhodnou paměťovou strukturou pro uchovávání slovníku je strom, jehož uzly mohly mít tolik potomků, kolik je znaků zdrojové abecedy. V kořeni je prázdné slovo a při vyhledávání fráze se každým načteným znakem posuneme do potomka v příslušné větvi (pokud existuje).
 
 \subsection{Princip komprese}
-Na počátku je ve slovníku na pozici 0 pouze prázdné slovo\footnote{Prázdná posloupnost znaků, slovo délky 0.} $\varepsilon$. Při zpracování dat jsou na další pozice 1,2, atd. vkládány nové fráze. Je-li na vstupu přečten znak $s$, algoritmus se ve slovníku pokusí nalézt jednoznakovou frázi $s$. Pokud není tato fráze nalezena, je vložena na volnou pozici s nejnižším indexem a na výstup je zapsána dvojice $(0,s)$, kde 0 je index prázdného slova. Tato dvojice znamená zakódování řetězce $\varepsilon s$ (zřetězení prázdného slova a znaku $s$). Naopak je-li fráze $s$ ve slovníku nalezena, je ze vstupu přečten další znak $t$ a ve slovníku je hledána dvouznaková fráze $st$. Pokud je fráze nalezena, pokračuje načítání dalších znaků a hledání ve slovníku. Pokud fráze nalezena není, je na výstup zapsána dvojice $(i,t)$, kde $i$ je index prefixové\footnote{Prefix značí \uv{začátek} slova nebo jeho předponu.} fráze $s$. Tento proces pokračuje, dokud nejsou zpracována všechna data na vstupu.
+Na počátku je ve slovníku na pozici 0 pouze prázdné slovo\footnote{Prázdná posloupnost znaků, slovo délky 0.} $\varepsilon$. Při zpracování dat jsou na další pozice 1,2, atd. vkládány nové fráze. Je-li na vstupu přečten znak $s$, algoritmus se ve slovníku pokusí nalézt jednoznakovou frázi $s$. Pokud není tato fráze nalezena, je vložena na volnou pozici s nejnižším indexem a na výstup je zapsána dvojice $(0,s)$, kde 0 je index prázdného slova. Tato dvojice znamená zakódování řetězce $\varepsilon s$ (zřetězení prázdného slova a znaku $s$). Naopak je-li fráze $s$ ve slovníku nalezena, je ze vstupu přečten další znak $t$ a ve slovníku je hledána dvouznaková fráze $st$. Pokud je fráze nalezena, pokračuje načítání dalších znaků a hledání ve slovníku. Pokud fráze nalezena není, je na výstup zapsána dvojice $(i,t)$, kde $i$ je index prefixové\footnote{Prefix značí předponu slova ve významu několika schodných počátečních znaků různých řetězců.} fráze $s$. Tento proces pokračuje, dokud nejsou zpracována všechna data na vstupu.
 
 \subsection{Příklad komprese}
 Zkusme pro příklad zakódovat část textu začínající slovem ABRAKADABRAK. Stav slovníku a výstup po kompresi můžeme vidět v tabulce \ref{LZ78tabulka}. V prvních třech krocích (indexy 1,2 a 3) jsou komprimovány pouze jednoznakové fráze, v dalších krocích již existují fráze A, resp. AB a tedy jich můžeme využít k zakódování delších frází.
@@ -102,7 +102,7 @@ Index & Fráze & \\
 2 & $\mathrm{B}$ & $(0,\mathrm{B})$\\
 3 & $\mathrm{R}$ & $(0,\mathrm{R})$\\
 4 & $\mathrm{AB}$ & $(1,\mathrm{B})$\\
-5 & $\mathrm{ABR}$ & $(3,\mathrm{R})$\\
+5 & $\mathrm{ABR}$ & $(4,\mathrm{R})$\\
 6 & $\mathrm{AK}$ & $(1,\mathrm{K})$\\
 \hline
 \end{tabular}
@@ -114,4 +114,4 @@ Index & Fráze & \\
 Při rekonstrukci dat jsou čteny jednotlivé dvojice (index, znak) a slovník je vytvářen pomocí úplně stejných kroků jako v případě komprese. Je tedy složitější než dekompresní algoritmus LZ77. Plátí, že je-li nějaká fráze ve slovníku, pak jsou v něm i všechny její prefixy. Ty jsou nutné pro hledání delších frází, neboť kompresní algoritmus se odkazuje na prefixové fráze o jeden znak kratší.
 
 \subsection{Variace algoritmu LZ78}
-Podobně jako v případě algoritmu LZ77 vniklo i množství variant postavených na myšlence algoritmu LZ78, ty upravují ty části, které považují autoři za neefektivní. Mezi nejvýznamnější se řadí metoda LZW vycházející z předpokladu, že kódovat jednotlivé znaky pomocí výše zmíněných dvojic je neefektivní. Místo toho na počátku kompresního procesu inicializuje slovník všemi jednoznakovými frázemi znaků zdrojové abecedy. Je-li hledaná fráze nalezena, pokračuje načtením dalšího znaku a hledáním delší fráze. Naopak není-li fráze nalezena, je vložena do slovníku, ale na výstup kóduje pouze index o jeden znak kratší fráze nalezené ve slovníku (nalezení jednoznakové fráze je zaručeno díky původní inicializaci slovníku). Další hledaná fráze začíná posledním zpracovaným znakem, tj. poslední znak fráze uložené do slovníku v předchozím kroku.
+Podobně jako v případě algoritmu LZ77 vniklo i množství variant postavených na myšlence algoritmu LZ78 upravujících ty části, které považují autoři za neefektivní. Mezi nej\-vý\-zna\-mně\-jší se řadí metoda LZW vycházející z předpokladu, že kódovat jednotlivé znaky pomocí výše zmíněných dvojic je neefektivní. Místo toho na počátku kompresního procesu inicializuje slovník všemi jednoznakovými frázemi znaků zdrojové abecedy. Je-li hledaná fráze nalezena, pokračuje načtením dalšího znaku a hledáním delší fráze. Naopak není-li fráze nalezena, je vložena do slovníku, ale na výstup kóduje pouze index o jeden znak kratší fráze nalezené ve slovníku (nalezení jednoznakové fráze je zaručeno díky původní inicializaci slovníku). Další hledaná fráze začíná posledním zpracovaným znakem, tj. poslední znak fráze uložené do slovníku v předchozím kroku.
