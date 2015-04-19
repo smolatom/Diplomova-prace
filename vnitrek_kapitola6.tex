@@ -7,7 +7,7 @@
 
 \label{kapitolaSpecifickeAlgoritmy}
 
-JSON byl navržen jako odlehčená varianta způsobu formátování dat proti XML, čímž byla odstraněna i redundance při použití počátečního a ukončovacího tagu. Po seznámení s jeho definicí a syntaxí je zřejmé, že zde již nezbývá moc prostoru k dalšímu \uv{odlehčení}. Podíváme-li se ale na data zapsaná v tomto formátu, která mohou obsahovat například výstup SQL příkazu SELECT nad databází (viz \textcolor{red}{odkaz na testovací soubor na přiloženém CD}), můžeme vidět, že se zde některé \uv{věci} přeci jen opakují. Jsou to klíče, včetně uvozovek, v jednotlivých objektech, které stačí zapsat pouze jednou. Tohoto poznatku využívají i dva vybrané algoritmy JSONH a CJSON. Rád bych čtenáře upozornil, že algoritmů pro kompresi JSON neexistuje mnoho, resp. jsou si velice podobné myšlenkou, provedením i názvy.
+JSON byl navržen jako odlehčená varianta způsobu formátování dat proti XML, čímž byla odstraněna i redundance při použití počátečního a ukončovacího tagu. Po seznámení s jeho definicí a syntaxí je zřejmé, že zde již nezbývá moc prostoru k dalšímu odlehčení. Podíváme-li se ale na data zapsaná v tomto formátu, která mohou obsahovat například výstup SQL příkazu SELECT nad databází (viz \textcolor{red}{odkaz na testovací soubor na přiloženém CD}), můžeme vidět, že se zde některé prvky přeci jen opakují. Jsou to klíče, včetně uvozovek, v jednotlivých objektech, které stačí zapsat pouze jednou. Tohoto poznatku využívají i dva vybrané algoritmy JSONH a CJSON. Rád bych čtenáře upozornil, že algoritmů pro kompresi JSON neexistuje mnoho, resp. jsou si velice podobné myšlenkou, provedením i názvy.
 
 S daty v tomto formátu nepracujeme jako s obyčejným textem, ale převedeme je na kolekci instancí tříd, které reprezentují. V rychlosti tohoto zpracování vyniká především JavaScript. 
 
@@ -15,7 +15,7 @@ S daty v tomto formátu nepracujeme jako s obyčejným textem, ale převedeme je
 Tento algoritmus dovoluje komprimovat pouze homogenní kolekce dat, v terminologii JSON jde o pole objektů, které mají stejný počet klíčů se stejnými názvy. Homogenitu dat musí zaručit uživatel, algoritmus samotný toto nikterak neošetřuje. Autoři projektu JSONH, kde je algoritmus implementován, na serveru github.com uvádějí, že data mohou být v některých případech zmenšena až na 30 \%.
 
 \subsection{Vzorová data}
-Mějme homogenním poli zaměstnanců firmy, ve které máme uložené databázové id, příjmení a pozici, na které zaměstnanec pracuje. Tato kolekce může vypadat následujícím způsobem.
+Mějme homogenní kolekci zaměstnanců firmy, ve které máme uložené databázové id, příjmení a pozici, na které zaměstnanec pracuje. Tato kolekce může vypadat následujícím způsobem.
 
 \texttt{[\\
 \hspace*{5mm}\{ \textquotedblright id\textquotedblright : 1, \textquotedblright name\textquotedblright : \textquotedblright Sánchez\textquotedblright, \textquotedblright position\textquotedblright : \textquotedblright Manager\textquotedblright\ \},\\
@@ -25,10 +25,11 @@ Mějme homogenním poli zaměstnanců firmy, ve které máme uložené databázo
 
 \subsection{Postup komprese}
 \begin{enumerate}
-\item Textová data jsou převedena na kolekci instancí tříd.
-\item \label{jsonhItem0} Z první instance v kolekci jsou určeny klíče a jejich počet.
-\item \label{jsonhItem1} Ze všech instancí v kolekci jsou postupně vyzvednuty hodnoty pro příslušné klíče, při čemž je zachováno pořadí klíčů, jak jsme jej získali v kroku \ref{jsonhItem0}.
-\item Je vytvořen řetězec, resp. soubor jej obsahující, který je složen z počtu klíčů, seznam klíčů a hodnoty vyzvednuté v kroku \ref{jsonhItem1}.
+\item Textová data jsou převedena na pole objektů.
+\item \label{jsonhItem0} Z prvního objektu v poli jsou určeny klíče a jejich počet.
+\item \label{jsonhItem1} Ze všech objektů v poli jsou postupně vyzvednuty hodnoty pro příslušné klíče, přičemž je zachováno pořadí klíčů, jak jsme jej získali v kroku \ref{jsonhItem0}.
+\item Je vytvořeno pole, které obsahuje prvky: počet klíčů, seznam klíčů a hodnoty vyzvednuté v kroku \ref{jsonhItem1}.
+\item Vytvořené pole serializujeme jako JSON do řetězce nebo souboru.
 \end{enumerate}
 
 \subsection{Data po kompresi}
@@ -37,11 +38,11 @@ Mějme homogenním poli zaměstnanců firmy, ve které máme uložené databázo
 
 \subsection{Postup rekonstrukce dat}
 \begin{enumerate}
-\item Textová data jsou převedena na kolekci hodnot.
-\item Z prvního prvku kolekce určíme počet klíčů, označíme $n$.
-\item Z druhého až $(n+1)$--ního prvku určíme klíče.
-\item Z následujících prvků (po $n+1$) rekonstruujeme původní instance až do konce kolekce a ukládáme je do kolekce nové.
-\item Novou kolekci serializujeme jako JSON do řetězce nebo souboru.
+\item Textová data jsou převedena na pole hodnot.
+\item Z prvního prvku v poli určíme počet klíčů, označíme $n$.
+\item Z 2. až $(n+1)$--ního prvku určíme klíče.
+\item Z následujících prvků (po $n+1$) rekonstruujeme původní objekty až do konce pole a ukládáme je do pole nového.
+\item Nové pole serializujeme jako JSON do řetězce nebo souboru.
 \end{enumerate}
 
 \section{CJSON}
@@ -59,7 +60,7 @@ Algoritmus v průběhu komprese vytváří postupně strom šablon, který je na
 \subsection{Vzorová data}
 \textcolor{red}{Vytvořit data, popsat, upravit obrázek konstrukce stromu!!!}
 
-Mějme homogenním poli zaměstnanců firmy, ve které máme uložené databázové id, příjmení a pozici, na které zaměstnanec pracuje. Tato kolekce může vypadat následujícím způsobem.
+Mějme homogenní kolekci zaměstnanců firmy, ve které máme uložené databázové id, příjmení a pozici, na které zaměstnanec pracuje. Tato kolekce může vypadat následujícím způsobem.
 
 \texttt{[\\
 \hspace*{5mm}\{ \textquotedblright id\textquotedblright : 1, \textquotedblright name\textquotedblright : \textquotedblright Sánchez\textquotedblright, \textquotedblright position\textquotedblright : \textquotedblright Manager\textquotedblright\ \},\\
@@ -69,22 +70,23 @@ Mějme homogenním poli zaměstnanců firmy, ve které máme uložené databázo
 
 \subsection{Postup komprese}
 \begin{enumerate}
-\item Textová data jsou převedena na kolekci instancí tříd.
-\item Ze všech instancí v kolekci jsou postupně vyzvednuty hodnoty a uloženy do kolekce objektů, které obsahují pouze kolekci příslušných hodnot, zároveň je konstruován strom šablon.
-\item Ze stromu šablon je vytvořena kolekce šablon. Šablona je kolekce obsahující identifikátor šablony, ze které \uv{dědí}, a klíče. Identifikátor 0 je rezervován pro šablonu odpovídající prázdnému objektu.
+\item Textová data jsou převedena na pole objektů.
+\item Ze všech objektů v poli jsou postupně vyzvednuty hodnoty a uloženy do nového pole objektů. Tyto objekty obsahují pouze pole příslušných hodnot. Zároveň je konstruován strom šablon.
+\item Ze stromu šablon je vytvořeno pole šablon. Šablona je pole obsahující identifikátor šablony, ze které dědí, a klíče. Identifikátor 0 je rezervován pro šablonu odpovídající prázdnému objektu.
 \item Objekty s hodnotami jsou doplněny o identifikátor odpovídající šablony.
-\item \label{cjsonItem0}Ze vzniklých kolekci vytvoříme objekt obsahující identifikátor kompresního algoritmu (klíč \texttt{"f"}), kolekce šablon (klíč \texttt{"t"}) a kolekce hodnot (klíč \texttt{"v"}) (viz Data po kompresi).
-\item Objekt vzniklý v bodě \ref{cjsonItem0} serializujeme jako JSON do řetězce nebo souboru.
+\item \label{cjsonItem0}Ze vzniklých polí vytvoříme objekt obsahující identifikátor kompresního algoritmu (klíč \texttt{"f"}), pole šablon (klíč \texttt{"t"}) a pole hodnot (klíč \texttt{"v"}) (viz \ref{cjsonPoKompresi}).
+\item Objekt vzniklý v bodu \ref{cjsonItem0} serializujeme jako JSON do řetězce nebo souboru.
 \end{enumerate}
 
 \subsection{Data po kompresi}
+\label{cjsonPoKompresi}
 \texttt{\{\hspace*{3mm}"f" : "cjson",\\
 \hspace*{5mm}"t" : [ [ 0, "x", "y" ], [ 1, "width", "height" ] ],\\
 \hspace*{5mm}"v" : [ \{ "" : [ 1, 100, 100 ] \}, \{ "" : [ 2, 100, 100, 200, 150 ] \} ] \}}
 
 \subsection{Postup rekonstrukce dat}
 \begin{enumerate}
-\item Textová data jsou převedena na instanci třídy.
-\item Vytvoříme kolekci, do které postupně vkládáme instance tříd vzniklé z prvků kolekce hodnot a příslušných šablon.
+\item Textová data jsou převedena na pole hodnot.
+\item Vytvoříme pole, do kterého postupně vkládáme objekty vzniklé z prvků pole hodnot a příslušných šablon.
 \item Tuto kolekci serializujeme jako JSON do řetězce nebo souboru.
 \end{enumerate}

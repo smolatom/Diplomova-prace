@@ -65,7 +65,7 @@ Adaptivní Huffmanovo kódování konstruuje strom při kompresi i dekompresi po
 
 Implementovaných verzí existuje několik. Níže je představena verze, kterou navrhl Jeffrey S. Vitter a ve které všechny uzly navíc obsahují pořadové číslo, které je využito při rozhodování při aktualizaci stromu. Také se zde využívají tzv. bloky -- množiny uzlů se stejnou četností. Diagram aktualizace stromu po přečtení jednoho symbolu je možné vidět v příloze \textcolor{red}{odkaz}, způsob kódování, resp. dekódování zprávy na diagramu \textcolor{red}{odkaz}, resp. \textcolor{red}{odkaz}.
 
-Algoritmus začíná pouze s uzlem označeným NYT (not yet transmitted), který symbolizuje všechny znaky, které se zatím ve stromu nevyskytují. Je-li ke zpracování načten symbol, který se ještě ve stromě nevyskytuje, je do výstupu vypsáno kódové slovo uzlu NYT následované nezakódovaným a dohodnutým tvarem zpracovávaného symbolu. Následně se z uzly NYT stane vnitřní uzel a jsou mu přiřazeny dva noví potomci: nový uzel NYT a list reprezentující právě zpracovávaný znak. Poté je strom aktualizován. Je-li ke zpracování načten ve stromě již obsažený symbol, je na výstup vypsáno pouze kódové slovo tohoto symbolu a strom je aktualizován.
+Algoritmus začíná pouze s uzlem označeným NYT (not yet transmitted), který symbolizuje všechny znaky, které se zatím ve stromu nevyskytují. Je-li ke zpracování načten symbol, který se ještě ve stromě nevyskytuje, je do výstupu vypsáno kódové slovo uzlu NYT následované nezakódovaným a dohodnutým tvarem zpracovávaného symbolu. Následně se z uzlu NYT stane vnitřní uzel a jsou mu přiřazeny dva noví potomci: nový uzel NYT a list reprezentující právě zpracovávaný znak. Poté je strom aktualizován. Je-li ke zpracování načten ve stromě již obsažený symbol, je na výstup vypsáno pouze kódové slovo tohoto symbolu a strom je aktualizován.
 
 Nezakódovaný tvar zpracovávaného symbolu může být například jeho osmibitový ASCII kód. Má-li zdrojová abeceda $\{a_1, a_2, \ldots, a_m\}$ počet znaků roven $m$, pak zvolíme $e,r$ tak, aby splňovala $m= 2^e + r$ a $0 \leq r < 2^e$. Znak $a_k$ poté kódujeme jako $(e+1)$--bitovou reprezentaci čísla $k-1$, je-li $1 \leq k \leq 2r$, jinak je $a_k$ kódován jako $e$--bitová reprezentace čísla $k-r-1$. \cite{dataCompression}, \cite{introductionToDataCompression}
 
@@ -80,7 +80,7 @@ Výsledný strom je zobrazen na obrázku \ref{adaptivniHuffmanStrom}, celý post
 \begin{figure}[!htb]
 \centering
 \includegraphics[trim=50 100 130 50, clip, angle=0, width=60mm]{adaptHuffman}
-\caption{Strom vytvořený při aptivním Huffmanově kódování}
+\caption{Strom vytvořený při adaptivním Huffmanově kódování}
 \label{adaptivniHuffmanStrom}
 \end{figure}
 
@@ -88,6 +88,6 @@ Výsledný strom je zobrazen na obrázku \ref{adaptivniHuffmanStrom}, celý post
 Výsledná zakódovaná zpráva je tvaru \texttt{01100|0|01000|00|10010|101|11|0|1|01|000|01111|1001|11}, kde jsem pro přehlednost vložil oddělovač \uv{\texttt{|}} oddělující jednotlivé významné bloky.
 
 \subsection{Dekódování zprávy}
-Přečteme $e=4$ bitů znaků, jejich hodnota jakožto čtyřbitového čísla je 6, což je menší než $r=10$. Přečteme další znak, hodnota tohoto pětibitového čísla je 12 a tedy jsme přečetli symbol $a_{13} = \mathrm{M}$. Aktualizujeme strom. Následuje 0, která je kódovým slovem pro uzel NYT, po něm vždy následuje nezakódovaný symbol. Obdobně jako pro M přečteme symbol $a_8 = \mathrm{I}$. Aktualizujeme strom. Následuje kódové slovo uzlu NYT a symbol $a_{19} = \mathrm{S}$. Dále čteme kódové slovo uzlu pro symbol S. Takto pokračujeme až do konce zakódované zprávy.
+Přečteme $e=4$ bitům znaků, jejichž hodnota jakožto čtyřbitového čísla je 6, což je menší než $r=10$. Přečteme další znak, hodnota tohoto pětibitového čísla je 12 a tedy jsme přečetli symbol $a_{13} = \mathrm{M}$. Aktualizujeme strom. Následuje 0, která je kódovým slovem pro uzel NYT, po něm vždy následuje nezakódovaný symbol. Obdobně jako pro M přečteme symbol $a_8 = \mathrm{I}$. Aktualizujeme strom. Následuje kódové slovo uzlu NYT a symbol $a_{19} = \mathrm{S}$. Dále čteme kódové slovo uzlu pro symbol S. Takto pokračujeme až do konce zakódované zprávy.
 
 \section{Aritmetické kódování}
