@@ -1,4 +1,5 @@
 \chapter{Slovníkové techniky komprese}
+\label{kapitolaSlovnikovaKomprese}
 V předchozí kapitole jsme si představili kompresní techniky, které předpokládají zdroje generující posloupnosti nezávislých symbolů a snaží se vytvořit statistický model dat. Účinnost komprese pak závisí  na přesnosti modelu. Slovníkové techniky, které popíšu v~této kapitole, nepoužívají statistický model ani kódy s různou délkou kódových slov. Místo toho vyhledávají opakující se části textu, tzv. fráze, ty udržují ve slovníku a na výstup vypisují pouze odkaz na příslušné místo ve slovníku. Slovníkem zde může být jak část již zpracovaných dat, tak i vlastní struktura v paměti. Podobně jako u statistických modelů existují statické a adaptivní slovníky.
 
 \section{Základy slovníkové komprese}
