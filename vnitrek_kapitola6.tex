@@ -1,7 +1,7 @@
 \chapter{Existující algoritmy pro kompresi JSON}
 \label{kapitolaJsonAlgoritmy}
 
-JSON byl navržen jako odlehčená varianta způsobu formátování dat proti XML, čímž byla odstraněna i redundance při použití počátečního a ukončovacího tagu. Po seznámení s jeho definicí a syntaxí je zřejmé, že zde již nezbývá moc prostoru k dalšímu odlehčení. Podíváme-li se ale na data zapsaná v tomto formátu, která mohou obsahovat například výstup SQL příkazu SELECT nad databází (viz \textcolor{red}{odkaz na testovací soubor}), můžeme vidět, že se zde některé prvky přece jen opakují. Jsou to klíče, včetně uvozovek, v jednotlivých objektech, které stačí zapsat pouze jednou. Tohoto poznatku využívají i dva vybrané algoritmy JSONH a CJSON, které jsou specifické tím, že výstupem z nich je validní JSON. Rád bych čtenáře upozornil, že algoritmů pro kompresi JSON neexistuje mnoho, resp. jsou si velice podobné myšlenkou, provedením i názvy.
+JSON byl navržen jako odlehčená varianta způsobu formátování dat proti XML, čímž byla odstraněna i redundance při použití počátečního a ukončovacího tagu. Po seznámení s jeho definicí a syntaxí je zřejmé, že zde již nezbývá moc prostoru k dalšímu odlehčení. Podíváme-li se ale na data zapsaná v tomto formátu, která mohou obsahovat například výstup SQL příkazu SELECT nad databází (viz \textcolor{red}{odkaz na testovací soubor}), můžeme vidět, že se zde některé prvky přeci jen opakují. Jsou to klíče, včetně uvozovek, v jednotlivých objektech, které stačí zapsat pouze jednou. Tohoto poznatku využívají i dva vybrané algoritmy JSONH a CJSON, které jsou specifické tím, že výstupem z nich je validní JSON. Rád bych čtenáře upozornil, že algoritmů pro kompresi JSON neexistuje mnoho, resp. jsou si velice podobné myšlenkou, provedením i názvy.
 
 S daty v tomto formátu nepracujeme jako s obyčejným textem, ale převedeme do paměti jako hodnoty (pole, objekty, atd.), což odpovídá zpracování pomocí JavaScriptu. Tomu odpovídá i terminologie použitá v této kapitole, která byla popsána v části \ref{syntaxeJson}.
 
@@ -34,7 +34,7 @@ Mějme homogenní kolekci zaměstnanců firmy, ve které máme uložené databá
 \begin{enumerate}
 \item Textová data jsou převedena na pole hodnot.
 \item Z prvního prvku v poli určíme počet klíčů, označíme $n$.
-\item Z prvků 2 až $(n+1)$ určíme klíče.
+\item Z prvků 2 až $n+1$ určíme klíče.
 \item Z následujících prvků (po $n+1$) rekonstruujeme původní objekty až do konce pole a ukládáme je do pole nového.
 \item Nové pole serializujeme jako JSON do řetězce nebo souboru.
 \end{enumerate}
