@@ -28,89 +28,142 @@ Jádrem algoritmu je ale třída \texttt{VitterTree}, která implementuje logiku
 
 \begin{table}[!h]
 \centering
-\begin{tabular}{l}
+\begin{tabular}{|l|}
 \hline
 \textbf{Algoritmus 1:} \texttt{AddChar}\\
 \hline
 \textbf{Vstupní parametry:} ASCII kód znaku \texttt{Z}\\
 \textbf{Výstupní parametry:} binární kód vloženého znaku\\
 \hline
-\texttt{if} strom obsahuje uzel se znakem \texttt{Z}\\
-\texttt{begin}\\
-\hspace*{5mm}vrať kód uzlu se znakem \texttt{Z}\\
-\hspace*{5mm}\texttt{UpdateTree(\texttt{Z})}\\
-\texttt{end}\\
-\texttt{else}\\
-\texttt{begin}\\
-\hspace*{5mm}vrať kód uzlu NYT\\
-\hspace*{5mm}vrať sedmibitový ASCII kód znaku \texttt{Z}\\
-\hspace*{5mm}\texttt{UpdateTree(\texttt{Z})}\\
-\texttt{end}\\
+\texttt{ 1} \texttt{if} strom obsahuje uzel se znakem \texttt{Z}\\
+\texttt{ 2} \texttt{begin}\\
+\texttt{ 3} \hspace*{5mm}vrať kód uzlu se znakem \texttt{Z}\\
+\texttt{ 4} \hspace*{5mm}\texttt{UpdateTree(\texttt{Z})}\\
+\texttt{ 5} \texttt{end}\\
+\texttt{ 6} \texttt{else}\\
+\texttt{ 7} \texttt{begin}\\
+\texttt{ 8} \hspace*{5mm}vrať kód uzlu NYT\\
+\texttt{ 9} \hspace*{5mm}vrať sedmibitový ASCII kód znaku \texttt{Z}\\
+\texttt{10} \hspace*{5mm}\texttt{UpdateTree(\texttt{Z})}\\
+\texttt{11} \texttt{end}\\
 \hline
 \end{tabular}
 \end{table}
 
 \begin{table}[!h]
 \centering
-\begin{tabular}{l}
+\begin{tabular}{|l|}
 \hline
 \textbf{Algoritmus 2:} \texttt{UpdateTree}\\
 \hline
 \textbf{Vstupní parametry:} znak \texttt{Z}\\
 \textbf{Výstupní parametry:} nemá\\
 \hline
-uzel \texttt{U :=} uzel se znakem \texttt{Z}\\
-\texttt{while} uzel \texttt{U} není kořen\\
-\texttt{begin}\\
-\hspace*{5mm}\texttt{if} v bloku existuje uzel s vyšším indexem než má uzel \texttt{U}\\
-\hspace*{5mm}\texttt{begin}\\
-\hspace*{10mm}prohoď uzel \texttt{U} s uzlem s nejvyšším indexem v bloku\\
-\hspace*{5mm}\texttt{end}\\
-\hspace*{5mm}inkrementuj počet výskytů v uzlu \texttt{U}\\
-\hspace*{5mm}\texttt{U :=} předek uzlu \texttt{U}\\
-\texttt{end}\\
+\texttt{ 1} uzel \texttt{U :=} uzel se znakem \texttt{Z}\\
+\texttt{ 2} \texttt{while} uzel \texttt{U} není kořen\\
+\texttt{ 3} \texttt{begin}\\
+\texttt{ 4} \hspace*{5mm}\texttt{if} v bloku existuje uzel s vyšším indexem než má uzel \texttt{U}\\
+\texttt{ 5} \hspace*{5mm}\texttt{begin}\\
+\texttt{ 6} \hspace*{10mm}prohoď uzel \texttt{U} s uzlem s nejvyšším indexem v bloku\\
+\texttt{ 7} \hspace*{5mm}\texttt{end}\\
+\texttt{ 8} \hspace*{5mm}inkrementuj počet výskytů v uzlu \texttt{U}\\
+\texttt{ 9} \hspace*{5mm}\texttt{U :=} předek uzlu \texttt{U}\\
+\texttt{10} \texttt{end}\\
 \hline
 \end{tabular}
 \end{table}
 
-Pro účely dekomprese je strom implementován jako deterministický konečný automat. Obsahuje \texttt{ukazatel}, který obsahuje referenci na jeden z uzlů (stav automatu). Na počátku ukazuje \texttt{ukazatel} na kořen a s každým přečteným bitem komprimované zprávy se přesune do následujícího uzlu dle přechodové funkce. Je-li přečten kód uzlu obsahujícího znak, je tento znak vrácen a strom aktualizován. Je-li přečten kód uzlu NYT, načte algoritmus dalších 7 bitů, které reprezentují ASCII kód nového znaku, ten je vložen do stromu a vrácen. Zpracování jednoho bitu kódu provádí metoda \texttt{PushBit} (viz algoritmus 3).
+Pro účely dekomprese je strom implementován jako deterministický konečný automat. Obsahuje \texttt{ukazatel}, který udržuje referenci na jeden z uzlů (stav automatu). Na počátku \texttt{ukazatel} ukazuje na kořen a s každým přečteným bitem komprimované zprávy se přesune do následujícího uzlu dle přechodové funkce. Je-li přečten kód uzlu obsahujícího znak, je tento znak vrácen a strom aktualizován. Je-li přečten kód uzlu NYT, načte algoritmus dalších 7 bitů, které reprezentují ASCII kód nového znaku, ten je vložen do stromu a vrácen. Zpracování jednoho bitu kódu provádí metoda \texttt{PushBit} (viz algoritmus 3).
 
 \begin{table}[!h]
 \centering
-\begin{tabular}{l}
+\begin{tabular}{|l|}
 \hline
 \textbf{Algoritmus 3:} \texttt{PushBit}\\
 \hline
 \textbf{Vstupní parametry:} jeden bit kódu \texttt{B}\\
 \textbf{Výstupní parametry:} přečtený znak, byl-li v tomto kroku přečten\\
 \hline
-\texttt{if} čten znak nevyskytující se ve stromě\\
-\texttt{begin}\\
-\hspace*{5mm}kumuluj 7 bitů\\
-\hspace*{5mm}\texttt{if} nakumulováno 7 bitů\\
-\hspace*{5mm}\texttt{begin}\\
-\hspace*{10mm}vrať přečtený znak \texttt{Z}\\
-\hspace*{10mm}\texttt{AddChar(Z)}\\
-\hspace*{10mm}přesměruj \texttt{ukazatel} na kořen\\
-\hspace*{5mm}\texttt{end}\\
-\texttt{end}\\
-\texttt{else}\\
-\texttt{begin}\\
-\hspace*{5mm}dle \texttt{B} přesměruj \texttt{ukazatel} na jeho potomka\\
-\hspace*{5mm}\texttt{if} ukazatel je uzel obsahující znak\\
-\hspace*{5mm}\texttt{begin}\\
-\hspace*{10mm}vrať znak \texttt{Z} v uzlu\\
-\hspace*{10mm}\texttt{AddChar(Z)}\\
-\hspace*{10mm}přesměruj \texttt{ukazatel} na kořen\\
-\hspace*{5mm}\texttt{begin}\\
-\hspace*{5mm}\texttt{if} ukazatel je uzel NYT\\
-\hspace*{5mm}\texttt{begin}\\
-\hspace*{10mm}přesměruj \texttt{ukazatel} na kořen\\
-\hspace*{10mm}nastav stav stromu na čtení nového znaku\\
-\hspace*{5mm}\texttt{begin}\\
-\texttt{end}\\
+\texttt{ 1} \texttt{if} čten znak nevyskytující se ve stromě\\
+\texttt{ 2} \texttt{begin}\\
+\texttt{ 3} \hspace*{5mm}kumuluj 7 bitů\\
+\texttt{ 4} \hspace*{5mm}\texttt{if} nakumulováno 7 bitů\\
+\texttt{ 5} \hspace*{5mm}\texttt{begin}\\
+\texttt{ 6} \hspace*{10mm}vrať přečtený znak \texttt{Z}\\
+\texttt{ 7} \hspace*{10mm}\texttt{AddChar(Z)}\\
+\texttt{ 8} \hspace*{10mm}přesměruj \texttt{ukazatel} na kořen\\
+\texttt{ 9} \hspace*{5mm}\texttt{end}\\
+\texttt{10} \texttt{end}\\
+\texttt{11} \texttt{else}\\
+\texttt{12} \texttt{begin}\\
+\texttt{13} \hspace*{5mm}dle \texttt{B} přesměruj \texttt{ukazatel} na jeho potomka\\
+\texttt{14} \hspace*{5mm}\texttt{if} ukazatel je uzel obsahující znak\\
+\texttt{15} \hspace*{5mm}\texttt{begin}\\
+\texttt{16} \hspace*{10mm}vrať znak \texttt{Z} v uzlu\\
+\texttt{17} \hspace*{10mm}\texttt{AddChar(Z)}\\
+\texttt{18} \hspace*{10mm}přesměruj \texttt{ukazatel} na kořen\\
+\texttt{19} \hspace*{5mm}\texttt{begin}\\
+\texttt{20} \hspace*{5mm}\texttt{if} ukazatel je uzel NYT\\
+\texttt{21} \hspace*{5mm}\texttt{begin}\\
+\texttt{22} \hspace*{10mm}přesměruj \texttt{ukazatel} na kořen\\
+\texttt{23} \hspace*{10mm}nastav stav stromu na čtení nového znaku\\
+\texttt{24} \hspace*{5mm}\texttt{begin}\\
+\texttt{25} \texttt{end}\\
 \hline
 \end{tabular}
 \end{table}
 
+\subsection{LZ78}
+
 \subsection{JSONH}
+Abych mohl ve staticky typovaném jazyce C\# zpracovat libovolná data ve formátu JSON, tedy pracovat s nimi jako s objekty různých typů, využívám typ \texttt{dynamic}. Ten umožňuje provést typovou kontrolu až v době běhu (run time), díky čemuž se s JSON v jazyce C\# pracuje částečně podobně jako v JavaScriptu. Po zvládnutí transformace dat na objekty je implementace algoritmu jednoduchá.
+
+Kompresní část algoritmu předpokládá, že všechny objekty v poli budou stejného typu. Komprese je závislá na struktuře objektů. Aby bylo dosaženo významného kompresního poměru, měly by objekty mít více atributů s jednoduchými hodnotami typu číslo, řetězec, \texttt{true}, \texttt{false} nebo \texttt{null} než méně atributů se složitými hodnotami typu pole nebo objekt. Metoda \texttt{Compress} třídy \texttt{JsonHCompressor} je popsána v algoritmu 4.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|}
+\hline
+\textbf{Algoritmus 4:} \texttt{Compress}\\
+\hline
+\textbf{Vstupní parametry:} cesta k souboru s JSON\\
+\textbf{Výstupní parametry:} nemá\\
+\hline
+\texttt{ 1} načti JSON\\
+\texttt{ 2} dekóduj JSON a vlož ho do dynamického pole \texttt{P}\\
+\texttt{ 3} z prvního objektu v poli \texttt{P} načti klíče do kolekce \texttt{K}\\
+\texttt{ 4} vytvoř prázdnou kolekci hodnot \texttt{H}\\
+\texttt{ 5} \texttt{foreach} prvek \texttt{p} v poli \texttt{P}\\
+\texttt{ 6} \texttt{begin}\\
+\texttt{ 7} \hspace*{5mm}\texttt{foreach} klíč \texttt{k} v kolekci \texttt{K}\\
+\texttt{ 8} \hspace*{5mm}\texttt{begin}\\
+\texttt{ 9} \hspace*{10mm}serializuj hodnotu pro klíč \texttt{k} v prvku \texttt{p} do kolekce \texttt{H}\\
+\texttt{10} \hspace*{5mm}\texttt{end}\\
+\texttt{11} \texttt{end}\\
+\texttt{12} vytvoř dynamické pole \texttt{D} obsahující počet prvků v kolekci \texttt{K},\\
+\verb+  + prvky kolekce \texttt{K} a prvky kolekce \texttt{H}\\
+\texttt{13} serializuj pole \texttt{D} do souboru\\
+\hline
+\end{tabular}
+\end{table}
+
+Dekompresní algoritmus je implementován v metodě \texttt{Decompress} třídy \texttt{JsonHCompressor}. Jeho implementace je velmi jednoduchá, což dosvědčuje i algoritmus 5.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|}
+\hline
+\textbf{Algoritmus 5:} \texttt{Decompress}\\
+\hline
+\textbf{Vstupní parametry:} cesta k souboru s JSON\\
+\textbf{Výstupní parametry:} nemá\\
+\hline
+\texttt{1} načti JSON\\
+\texttt{2} dekóduj JSON a vlož ho do dynamického pole \texttt{P}\\
+\texttt{3} z prvního prvku v poli \texttt{P} načti počet klíčů do proměnné \texttt{n}\\
+\texttt{4} z následujících \texttt{n} prvků vytvoř šablonu objektu \texttt{S}\\
+\texttt{5} ze zbývajících prvků vytvoř pole objektů \texttt{D} dle šablony \texttt{S}\\
+\texttt{6} serializuj pole \texttt{D} do souboru\\
+\hline
+\end{tabular}
+\end{table}
