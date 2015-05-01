@@ -22,7 +22,7 @@ Výstupem mé práce je knihovna tří vybraných kompresních algoritmů. Její
 
 \section{Vybrané algoritmy}
 \subsection{Adaptivní Huffmanovo kódování}
-Ze statistických kompresních metod jsem zvolil Jeffreyho S. Vitterovu verzi adaptivního Huffmanova kódování, která je považována za složitější na implementaci, ale proti jiným verzím staví vyváženější stromy a tedy generuje kratší kódová slova. Uživatel má k dispozici třídu \texttt{AdaptiveHuffmanCompressor} s veřejnými metodami \texttt{Compress} a \texttt{Decompress}. 
+Ze statistických kompresních metod jsem zvolil Vitterovu verzi adaptivního Huffmanova kódování, která je považována za složitější na implementaci, ale proti jiným verzím staví vyváženější stromy a tedy generuje kratší kódová slova. Uživatel má k dispozici třídu \texttt{AdaptiveHuffmanCompressor} s veřejnými metodami \texttt{Compress} a \texttt{Decompress}. 
 
 Jádrem algoritmu je ale třída \texttt{VitterTree}, která implementuje logiku chování stromu. Pro každý přečtený znak je při kompresi zavolána jeho metoda \texttt{AddChar} (viz algoritmus 1), která provede aktualizaci stromu dle algoritmu 2 a vrátí binární kód znaku ve stromu.
 

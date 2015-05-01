@@ -4,7 +4,7 @@ Statistické kompresní metody využívají znalosti tzv. pravděpodobnostního 
 
 \section{Pravděpodobnostní model}
 \label{pravdepodobnostniModel}
-Pravděpodobnostní model přiřazuje pravděpodobnosti výskytu symbolům ve zdrojové zprávě. Na tomto základě například Huffmanovo kódování (viz \ref{huffmanovoKodovani}) přiřazuje symbolům, které se v datech objevují častěji (mají vyšší pravděpodobnost výskytu), kratší kódová slova.
+Pravděpodobnostní model přiřazuje pravděpodobnosti výskytu symbolům ve zdrojové zprávě. Na tomto základě například Huffmanovo kódování (viz \ref{huffmanovoKodovani} a \ref{adaptivniHuffman}) přiřazuje symbolům, které se v datech objevují častěji (mají vyšší pravděpodobnost výskytu), kratší kódová slova.
 
 Podle toho, jakým způsobem model vzniká, ho můžeme označit jako statický, semiadaptivní, nebo adaptivní.
 
@@ -19,7 +19,7 @@ Tento mode vzniká v průběhu zpracování dat a je postupně aktualizován. To
 
 \section{Semiadaptivní Huffmanovo kódování}
 \label{huffmanovoKodovani}
-Huffmanovo kódování je jednou z nejstarších kompresních technik, kterou publikoval již v~roce 1952 David A. Huffman. Semiadaptivní dvouprůchodová verze byla od svého vzniku podrobena dalšímu výzkumu a postupně vylepšena až na adaptivní. Je založeno na dvou vlastnostech nejkratších prefixových (jednoznačně dekódovatelných) kódů \cite{introductionToDataCompression}:
+Huffmanovo kódování je jednou z nejstarších kompresních technik, kterou publikoval již v~roce 1952 David A. Huffman. Semiadaptivní dvouprůchodová verze byla od svého vzniku podrobena dalšímu výzkumu a postupně vylepšena až na adaptivní. Je založeno na dvou vlastnostech nejkratších prefixových\footnote{Prefix značí několik shodných počátečních znaků různých řetězců.} (jednoznačně dekódovatelných) kódů \cite{introductionToDataCompression}:
 
 \begin{enumerate}
 \item Symbolům s vyšší pravděpodobností výskytu jsou přiřazována kratší kódová slova.
@@ -29,7 +29,7 @@ Huffmanovo kódování je jednou z nejstarších kompresních technik, kterou pu
 Algoritmus nejprve seřadí symboly sestupně podle pravděpodobnosti výskytu a poté z nich v krocích konstruuje strom od listů ke kořeni. V každém kroku jsou vybrány dva symboly s nejmenší pravděpodobností výskytu, z nich je vytvořen nový uzel, který je brán jako symbol s kumulovanou pravděpodobností odpovídající součtu dílčích pravděpodobností. Kroky opakujeme až do vybrání všech symbolů, kdy je kumulovaná pravděpodobnost výskytu rovna 1. Nakonec ohodnotíme hrany vystupující z uzlu vlevo číslem 0 a vpravo číslem 1. Kódová slova získáme čtením stromu od kořene k listům. \cite{dataCompression}, \cite{introductionToDataCompression}
 
 \subsection{Postup kódování a dekódování zprávy}
-Při kódování zprávy zapisujeme na výstup kódová slova odpovídající čteným symbolům. Naopak při dekódování procházíme strom od uzlu k listům tak, jak jsou čteny jednotlivé znaky kódových slov. Pokud dojdeme do listu, přečetli jsme jeden původní symbol a můžeme jej vypsat.
+Při kódování zprávy zapisujeme na výstup kódová slova odpovídající čteným symbolům. Naopak při dekódování procházíme strom od uzlu k listům tak, jak jsou čteny jednotlivé znaky kódových slov. Pokud dojdeme do listu, přečetli jsme jeden původní symbol a~můžeme jej vypsat.
 
 \subsection{Vzorový příklad}
 Postup lze nejlépe prezentovat na příkladu. Mějme za úkol zakódvat zprávu \uv{MISSISSIPPI} pomocí semiadaptivního Huffmanova kódování. Výsledný strom je zobrazen na obrázku \ref{semiHuffmanStrom}, celá konstrukce pak v příloze \textcolor{red}{reference na konstrukci stromu v příloze}. Místo pravděpodobností výskytu jsou použity absolutní četnosti symbolů v listech a kumulativní četnosti v dalších uzlech. Získaná kódová slova pro jednotlivé symboly jsou zobrazena v~tabulce \ref{semiHuffmanStrom}.
@@ -68,7 +68,7 @@ Implementovaných verzí existuje několik. Níže je představena verze, kterou
 
 Algoritmus začíná pouze s uzlem označeným NYT (not yet transmitted), který symbolizuje všechny znaky, které se zatím ve stromu nevyskytují. Je-li ke zpracování načten symbol, který se ještě ve stromě nevyskytuje, je do výstupu vypsáno kódové slovo uzlu NYT následované nezakódovaným a dohodnutým tvarem zpracovávaného symbolu. Následně se z uzlu NYT stane vnitřní uzel a jsou mu přiřazeni dva noví potomci: nový uzel NYT a list reprezentující právě zpracovávaný znak. Poté je strom aktualizován. Je-li ke zpracování načten ve stromě již obsažený symbol, je na výstup vypsáno pouze kódové slovo tohoto symbolu a strom je aktualizován.
 
-Nezakódovaný tvar zpracovávaného symbolu může být například jeho osmibitový ASCII kód. Má-li zdrojová abeceda $\{a_1, a_2, \ldots, a_m\}$ počet znaků roven $m$, pak zvolíme $e,r$ tak, aby splňovala $m= 2^e + r$ a $0 \leq r < 2^e$. Znak $a_k$ poté kódujeme jako $(e+1)$--bitovou reprezentaci čísla $k-1$, je-li $1 \leq k \leq 2r$, jinak je $a_k$ kódován jako $e$--bitová reprezentace čísla $k-r-1$. \cite{dataCompression}, \cite{introductionToDataCompression}
+Nezakódovaný tvar zpracovávaného symbolu může být například jeho osmibitový ASCII kód. Má-li zdrojová abeceda $\{a_1, a_2, \ldots, a_m\}$ počet znaků roven $m$, pak zvolíme $e,r$ tak, aby splňovala $m= 2^e + r$ a $0 \leq r < 2^e$. Znak $a_k$ poté kódujeme jako $(e+1)$-bitovou reprezentaci čísla $k-1$, je-li $1 \leq k \leq 2r$, jinak je $a_k$ kódován jako $e$--bitová reprezentace čísla $k-r-1$. \cite{dataCompression}, \cite{introductionToDataCompression}
 
 \subsection{Vzorový příklad}
 \label{prikladAdaptivniHuffman}
@@ -90,4 +90,4 @@ Výsledný strom je zobrazen na obrázku \ref{adaptivniHuffmanStrom}, celý post
 Výsledná zakódovaná zpráva je tvaru \texttt{01100|0|01000|00|10010|101|11|0|1|01|000|\\01111|1001|11}, kde jsem pro přehlednost vložil oddělovač \uv{\texttt{|}} oddělující jednotlivé vý\-zna\-mné bloky.
 
 \subsubsection{Dekódování zprávy}
-Přečteme $e=4$ bitům znaků, jejichž hodnota jakožto čtyřbitového čísla je 6, což je menší než $r=10$. Přečteme další znak, hodnota tohoto pětibitového čísla je 12 a tedy jsme přečetli symbol $a_{13} = \mathrm{M}$. Aktualizujeme strom. Následuje 0, která je kódovým slovem pro uzel NYT, po něm vždy následuje nezakódovaný symbol. Obdobně jako pro M přečteme symbol $a_8 = \mathrm{I}$. Aktualizujeme strom. Následuje kódové slovo uzlu NYT a symbol $a_{19} = \mathrm{S}$. Dále čteme kódové slovo uzlu pro symbol S. Takto pokračujeme dokud nepřečteme všechna slova zakódované zprávy.
+Přečteme $e=4$ bitům znaků, jejichž hodnota jakožto čtyřbitového čísla je 6, což je menší než $r=10$. Přečteme další znak, hodnota tohoto pětibitového čísla je 12 a tedy jsme přečetli symbol $a_{13} = \mathrm{M}$. Aktualizujeme strom. Následuje 0, která je kódovým slovem pro uzel NYT, po něm vždy následuje nezakódovaný symbol. Obdobně jako pro M přečteme symbol $a_8 = \mathrm{I}$. Aktualizujeme strom. Následuje kódové slovo uzlu NYT a symbol $a_{19} = \mathrm{S}$. Dále čteme kódové slovo uzlu pro symbol S. Takto pokračujeme, dokud nepřečteme všechna slova zakódované zprávy.

@@ -25,7 +25,7 @@ Počáteční tag elementu může obsahovat atributy upřesňující jeho význa
 $$\texttt{název\_atributu=\textquotedblright hodnota atributu osahující znak \textquoteright\ (apostrof)\textquotedblright}.$$
 
 \subsubsection{Obsah}
-Vše, co není tagem, je v dokumentu považováno za obsah. Kromě obyčejného textu mohou být obsahem další vnořené elementy, komentáře, instrukce pro zpracování, reference a další. Vzhledem k tomu, že určité znaky mají v syntaxi XML speciální význam (např. \texttt{<}, \texttt{>}), využívají se pro jejich zápis znakové entity\footnote{Pomocí znakových entit (sekvence znaků) lze zapsat znaky, které neobsahuje zvolená znaková sada, nebo mají v použitém kontextu speciální význam.}. Úplný výčet toho, co může XML dokument obsahovat, je včetně pravidel definován v \cite{w3cxml}.
+Vše, co není tagem, je v dokumentu považováno za obsah. Kromě obyčejného textu mohou být obsahem další vnořené elementy, komentáře, instrukce pro zpracování, reference a~další. Vzhledem k tomu, že určité znaky mají v syntaxi XML speciální význam (např. \texttt{<}, \texttt{>}), využívají se pro jejich zápis znakové entity\footnote{Pomocí znakových entit (sekvence znaků) lze zapsat znaky, které neobsahuje zvolená znaková sada, nebo mají v použitém kontextu speciální význam.}. Úplný výčet toho, co může XML dokument obsahovat, je včetně pravidel definován v \cite{w3cxml}.
 
 \subsection{Vzorový příklad}
 \label{xmlpriklad}
@@ -52,11 +52,11 @@ Jak již název napovídá, je JSON velice úzce spojen s programovacím jazykem
 
 Silnou stránkou JSON je rychlost zpracování JavaScriptem, bohužel právě přímé zpracování je zároveň potenciální hrozbou, neboť může být zneužito útočníkem k vykonání nějakého škodlivého kódu.
 
-Orientace na data a zvolená syntaktická struktura umožňují přehledný zápis datových objektů. Protože co jiného než než popis atributů (asociativní pole) a výčet hodnot (pole) datové objekty obsahují.
+Orientace na data a zvolená syntaktická struktura umožňují přehledný zápis datových objektů. Protože co jiného než popis atributů (asociativní pole) a výčet hodnot (pole) datové objekty obsahují.
 
 \subsection{Syntaktická analýza}
 \label{syntaxeJson}
-Dle definice \cite{json} je JSON posloupností tokenů (viz \ref{syntaxeJson}) tvořených z Unicode znaků. Sada tokenů obsahuje šest strukturálních tokenů: \texttt{[} (levá hranatá závorka), \texttt{\{} (levá složená závorka), \texttt{]} (pravá hranatá závorka), \texttt{\}} (pravá složená závorka), \texttt{:} (dvojtečka) a \texttt{,} (čárka); dále obsahuje znakové řetězce, čísla a tři doslovné tokeny: \texttt{true}, \texttt{false} a \texttt{null}.
+Dle definice \cite{json} je JSON posloupností tokenů tvořených z Unicode znaků. Sada tokenů obsahuje šest strukturálních tokenů: \texttt{[} (levá hranatá závorka), \texttt{\{} (levá složená závorka), \texttt{]} (pravá hranatá závorka), \texttt{\}} (pravá složená závorka), \texttt{:} (dvojtečka) a \texttt{,} (čárka); dále obsahuje znakové řetězce, čísla a tři doslovné tokeny: \texttt{true}, \texttt{false} a \texttt{null}.
 
 \subsubsection{Hodnoty}
 Za hodnotu je v JSON považován objekt, pole, číslo, řetězec, \texttt{true}, \texttt{false}, nebo \texttt{null}.
@@ -127,6 +127,6 @@ Stejně jako ve vzorovém příkladu \ref{xmlpriklad} ke XML, je zde popsána po
 
 %Vybrat nějaké argumenty z diskusí a zapsat je tady pro porovnání
 
-Je XML obecně lepší než JSON? Co vlastně dělá jeden formát lepší než jiný? Na toto bylo vedeno již nespočet diskusí. Argumentace obou stran diskuse je obvykle podložena jak teoretickou znalostí formátů, tak i praktickým použitím v reálných projektech. I přesto si myslím, že žádná diskuse nepřinesla jednoznačnou odpověď na výše položenou otázku, což samozřejmě pro některé konkrétní případy použití neplatí a volba jednoho z formátů je nutná nebo alespoň výhodnější. Ze svého zkoumání této problematiky si ale odnáším jeden podstatný závěr, který bych chtěl čtenáři zdůraznit: Vždy záleží na konkrétní situaci. Před samotným rozhodnutím, který z formátů využít, je vhodné zvážit důležité požadavky a do těchto úvah zahrnout klidně i další z existujících datových formátů. Zároveň lze ale říci, že pokud splňuje vybraný formát požadavky, tak ho lze považovat za dostatečný 
+Je XML obecně lepší než JSON? Co vlastně dělá jeden formát lepší než jiný? Na toto bylo vedeno již nespočet diskusí. Argumentace obou stran diskuse je obvykle podložena jak teoretickou znalostí formátů, tak i praktickým použitím v reálných projektech. I přesto si myslím, že žádná diskuse nepřinesla jednoznačnou odpověď na výše položenou otázku, což samozřejmě pro některé konkrétní případy použití neplatí a volba jednoho z formátů je nutná nebo alespoň výhodnější. Ze svého zkoumání této problematiky si ale odnáším jeden závěr -- vždy záleží na konkrétní situaci. Před samotným rozhodnutím, který z formátů využít, je vhodné zvážit důležité požadavky a do těchto úvah zahrnout klidně i další z existujících datových formátů. Zároveň lze ale říci, že pokud splňuje vybraný formát požadavky, tak ho lze považovat za dostatečný 
 
 Podíváme-li se znovu na vzorové příklady zápisu dat nebo položíme-li si vedle sebe stejná data zapsaná do obou formátů (viz příloha \ref{prilohaPorovnaniXmlJson}), můžeme lehce vidět vzájemnou podobnost. Ve své práci proto vycházím z předpokladu, že jsou oba formáty z hlediska toho, jaká data lze do nich zapsat, ekvivalentní. Respektive budu pro další porovnání používat pouze takový druh dat, který bude tento předpoklad splňovat.
