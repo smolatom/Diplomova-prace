@@ -8,3 +8,12 @@
 
 %Závěr se většinou vejde na 1 stránku (max. 3 stránky).
 
+Tato závěrečná diplomová práce se věnuje kompresi dat a to hlavně kompresi s využitím znalosti struktury dat. Porovnávány jsou vzájemně datové formáty XML a JSON s cílem určit, který z nich je vhodnější ke kompresi a tím úspornější při archivaci či přenosu dat.
+
+XML je redundantní textový formát, který byl navržen tak, aby byl snadno čitelný pro člověka. Této redundance lze při kompresi XML souboru využít. Formát JSON vznikl jako úsporná alternativa právě ke XML s myšlenkou odstranění redundance dané definicí syntaxe XML. Oba formáty se dnes velice často využívají v prostředí internetu pro práci s daty a proto je vhodné vědět, jaký úspory může jejich komprese přinést.
+
+Praktická část práce je složena ze dvou úkolů. V prvním byla implementována kompresní knihovna, která obsahuje tři algoritmy. Algoritmy Huffmanovo kódování a LZ77 byly zvoleny zejména z toho důvodu, že je úspěšně kombinují algoritmy LZMA2 a gzip, který navíc ke kompresi souborů XML využívá algoritmus XMill. Velmi důležitou součástí implementace kompresního algoritmu je správa paměti, kterou se mi v práci nepodařilo úplně vyřešit.
+
+Dalším praktickým úkolem bylo úkolem bylo porovnat účinky komprese dat zapsaných ve formátech XML a  JSON pomocí různých kompresních technik. Zvolené algoritmy LZMA2, BZip2, PPMd, gzip, XMILL, JSONH a CJSON byly použity ke komprimaci pěti souborů obsahujících XML a JSON. Tyto soubory byly voleny tak, aby nebyly navzájem podobné velikostí a strukturou dat. Naměřené výsledky jsou v grafů a tabulky popsány v kapitole \ref{kapitolaPorovnaniUcinnosti}. Z naměřených dat vyplývá, že moderní kompresní metody, jako jsou LZMA2 a PPMd, dokáží komprimovat XML i JSON se srovnatelnou nebo dokonce vyšší účinností než algoritmy specializované. Algoritmy JSONH a CJSON dosáhly nejhorších výsledků pro úplně všechny testovací soubory, což je ale dáno naprosto rozdílným způsobem komprimace.
+
+Mezi soubory XML a JSON obsahující stejná data je možné pozorovat významný rozdíl ve velikosti ve prospěch formátu JSON. Toto ale neplatí pro soubory po komprimaci, kdy je rozdíl ve velikosti podstatně menší. Pokud uživatel nevyžaduje možnost práce s komprimovanými daty, lze doporučit použití klasických běžně dostupných kompresních algoritmů. Na základě výše zmíněných poznatků považuji formát JSON za vhodnější ke kompresi a práci s daty.
