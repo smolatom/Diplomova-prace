@@ -93,10 +93,12 @@ Na počátku je ve slovníku na pozici 0 pouze prázdné slovo\footnote{Prázdn�
 Zkusme pro příklad zakódovat část textu začínající slovem ABRAKADABRAK. Stav slovníku a výstup po kompresi můžeme vidět v tabulce \ref{LZ78tabulka}. V prvních třech krocích (indexy 1, 2 a 3) jsou komprimovány pouze jednoznakové fráze, v dalších krocích již existují fráze A, resp. AB a tedy jich můžeme využít k zakódování delších frází.
 
 \begin{table}[!htb]
+\catcode`\-=12
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
 \multicolumn{2}{|c|}{Slovník} & \multirow{2}{*}{Výstup}\\
+\cline{1-2}
 Index & Fráze & \\
 \hline
 0 & $\varepsilon$ & \\
