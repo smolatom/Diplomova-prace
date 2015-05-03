@@ -15,7 +15,7 @@ Tento model je definován při implementaci kompresní metody a při použití s
 Komprimovaná data jsou jedním průchodem statisticky zpracována a následně je vytvořen odpovídající model. K samotné kompresi je ale nutný ještě druhý průchod daty s již vytvořeným modelem. Aby bylo možné data dekomprimovat, je nutné připojit model k~datům. Model je sice přesný, ale velikost zkomprimované zprávy je větší o model. Navíc přístup s dvěma průchody daty činí tyto algoritmy neefektivními a v praxi se moc nepoužívají.
 
 \subsection{Adaptivní model}
-Tento mode vzniká v průběhu zpracování dat a je postupně aktualizován. To platí i pro dekompresní algoritmus, ten vytváří model stejně jako kompresní algoritmus z části textu, kterou již dekomprimoval. Díky tomu není nutné model připojovat k datům a také procházet data dvakrát.
+Tento mode vzniká v průběhu zpracování dat a je postupně aktualizován. To platí i~pro dekompresní algoritmus, ten vytváří model stejně jako kompresní algoritmus z části textu, kterou již dekomprimoval. Díky tomu není nutné model připojovat k datům a také procházet data dvakrát.
 
 \section{Semiadaptivní Huffmanovo kódování}
 \label{huffmanovoKodovani}
@@ -39,7 +39,7 @@ Zakódovaná zpráva je tvaru \texttt{111|0|10|10|0|10|10|0|110|110|0}, kde je z
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[trim=50 220 770 60, clip, angle=0, width=60mm]{semiHuffman}
+\includegraphics[trim=50 220 770 60, clip, angle=0, width=55mm]{semiHuffman}
 \caption{Strom vytvořený při semiadaptivním Huffmanově kódování}
 \label{semiHuffmanStrom}
 \end{figure}
@@ -68,20 +68,18 @@ Implementovaných verzí existuje několik. Níže je představena verze, kterou
 
 Algoritmus začíná pouze s uzlem označeným NYT (not yet transmitted), který symbolizuje všechny znaky, které se zatím ve stromu nevyskytují. Je-li ke zpracování načten symbol, který se ještě ve stromě nevyskytuje, je do výstupu vypsáno kódové slovo uzlu NYT následované nezakódovaným a dohodnutým tvarem zpracovávaného symbolu. Následně se z uzlu NYT stane vnitřní uzel a jsou mu přiřazeni dva noví potomci: nový uzel NYT a list reprezentující právě zpracovávaný znak. Poté je strom aktualizován. Je-li ke zpracování načten ve stromě již obsažený symbol, je na výstup vypsáno pouze kódové slovo tohoto symbolu a strom je aktualizován.
 
-Nezakódovaný tvar zpracovávaného symbolu může být například jeho osmibitový ASCII kód. Má-li zdrojová abeceda $\{a_1, a_2, \ldots, a_m\}$ počet znaků roven $m$, pak zvolíme $e,r$ tak, aby splňovala $m= 2^e + r$ a $0 \leq r < 2^e$. Znak $a_k$ poté kódujeme jako $(e+1)$-bitovou reprezentaci čísla $k-1$, je-li $1 \leq k \leq 2r$, jinak je $a_k$ kódován jako $e$--bitová reprezentace čísla $k-r-1$. \cite{dataCompression}, \cite{introductionToDataCompression}
+Nezakódovaný tvar zpracovávaného symbolu může být například jeho osmibitový ASCII kód. Má-li zdrojová abeceda $\{a_1, a_2, \ldots, a_m\}$ počet znaků roven $m$, pak zvolíme $e,r$ tak, aby splňovala $m= 2^e + r$ a $0 \leq r < 2^e$. Znak $a_k$ poté kódujeme jako $(e+1)$-bitovou reprezentaci čísla $k-1$, je-li $1 \leq k \leq 2r$, jinak je $a_k$ kódován jako $e$-bitová reprezentace čísla $k-r-1$. \cite{dataCompression}, \cite{introductionToDataCompression}
 
 \subsection{Vzorový příklad}
 \label{prikladAdaptivniHuffman}
-Pokusme se znovu zakódovat slovo MISSISSIPPI, kde budeme uvažovat anglickou abecedu jako zdrojovou. Ta má 26 znaků, tedy $m=26$, $e = 4$ a $r=10$ a znaky číslujeme $a_1 = \mathrm{A}$, $a_2 = \mathrm{B}$ atd.
+Pokusme se znovu zakódovat slovo MISSISSIPPI a uvažujme anglickou abecedu jako zdrojovou. Ta má 26 znaků, tedy $m=26$, $e = 4$ a $r=10$ a znaky číslujeme $a_1 = \mathrm{A}$ atd.
 
 \subsubsection{Zakódování zprávy a vytvoření stromu}
-Začínáme se stromem, který obsahuje pouze kořen NYT. Čteme znak M a na výstup zapíšeme jeho pětibitový nezakódovaný tvar pro $k=13$, tedy \texttt{01100}. Aktualizujeme strom. Čteme znak I, který se ve stromě také nevyskytuje. Na výstup zapíšeme kód uzlu NYT (nyní je to \texttt{0}) a pětibitový nezakódovaný tvar pro $k=9$, tedy \texttt{01000}. Aktualizujeme strom. Dále čteme nový znak S. Na výstup zapíšeme kód uzlu NYT (nyní je to \texttt{00}) a pětibitový nezakódovaný tvar pro $k=19$, tedy \texttt{10010}. Aktualizujeme strom. Dále čteme znak S, který ve stromu již je a tedy vypíšeme pouze jeho kód. Aktualizujeme strom. A tak pokračujeme pro všechny znaky slova.
-
-Výsledný strom je zobrazen na obrázku \ref{adaptivniHuffmanStrom}, celý postup vytvoření stromu pak v příloze \textcolor{red}{odkaz}. 
+Začínáme se stromem, který obsahuje pouze kořen NYT. Čteme znak M a na výstup zapíšeme jeho pětibitový nezakódovaný tvar pro $k=13$, tedy \texttt{01100}. Aktualizujeme strom. Čteme znak I, který se ve stromě také nevyskytuje. Na výstup zapíšeme kód uzlu NYT (nyní je to \texttt{0}) a pětibitový nezakódovaný tvar pro $k=9$, tedy \texttt{01000}. Aktualizujeme strom. Dále čteme nový znak S. Na výstup zapíšeme kód uzlu NYT (nyní je to \texttt{00}) a pětibitový nezakódovaný tvar pro $k=19$, tedy \texttt{10010}. Aktualizujeme strom. Dále čteme znak S, který ve stromu již je a tedy vypíšeme pouze jeho kód. Aktualizujeme strom. A tak pokračujeme pro všechny znaky slova. Výsledný strom je zobrazen na obrázku \ref{adaptivniHuffmanStrom}, celý postup vytvoření stromu pak v příloze \textcolor{red}{odkaz}. 
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[trim=50 100 130 50, clip, angle=0, width=60mm]{adaptHuffman}
+\includegraphics[trim=50 105 130 50, clip, angle=0, width=55mm]{adaptHuffman}
 \caption{Strom vytvořený při adaptivním Huffmanově kódování}
 \label{adaptivniHuffmanStrom}
 \end{figure}

@@ -102,18 +102,18 @@ Pro účely dekomprese je strom implementován jako deterministický konečný a
 \texttt{16} \hspace*{10mm}vrať znak \texttt{Z} v uzlu\\
 \texttt{17} \hspace*{10mm}\texttt{AddChar(Z)}\\
 \texttt{18} \hspace*{10mm}přesměruj \texttt{ukazatel} na kořen\\
-\texttt{19} \hspace*{5mm}\texttt{begin}\\
-\texttt{20} \hspace*{5mm}\texttt{if} ukazatel je uzel NYT\\
+\texttt{19} \hspace*{5mm}\texttt{end}\\
+\texttt{20} \hspace*{5mm}\texttt{else if} ukazatel je uzel NYT\\
 \texttt{21} \hspace*{5mm}\texttt{begin}\\
 \texttt{22} \hspace*{10mm}přesměruj \texttt{ukazatel} na kořen\\
 \texttt{23} \hspace*{10mm}nastav stav stromu na čtení nového znaku\\
-\texttt{24} \hspace*{5mm}\texttt{begin}\\
+\texttt{24} \hspace*{5mm}\texttt{end}\\
 \texttt{25} \texttt{end}\\
 \hline
 \end{tabular}
 \end{table}
 
-\subsection{LZ78}
+\subsection{LZ77}
 
 \subsection{JSONH}
 Abych mohl ve staticky typovaném jazyce C\# zpracovat libovolná data ve formátu JSON, tedy pracovat s nimi jako s objekty různých typů, využívám typ \texttt{dynamic}. Ten umožňuje provést typovou kontrolu až v době běhu (run time), díky čemuž se s JSON v jazyce C\# pracuje částečně podobně jako v JavaScriptu. Po zvládnutí transformace dat na objekty je implementace algoritmu jednoduchá.
