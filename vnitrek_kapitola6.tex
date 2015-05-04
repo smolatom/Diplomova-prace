@@ -1,7 +1,7 @@
 \chapter{Existující algoritmy pro kompresi JSON}
 \label{kapitolaJsonAlgoritmy}
 
-JSON byl navržen jako odlehčená varianta způsobu formátování dat proti XML, čímž byla odstraněna i redundance při použití počátečního a ukončovacího tagu. Po seznámení s jeho definicí a syntaxí je zřejmé, že zde již nezbývá moc prostoru k dalšímu odlehčení. Podíváme-li se ale na data zapsaná v tomto formátu, která mohou obsahovat například výstup SQL příkazu SELECT nad databází (viz \textcolor{red}{odkaz na testovací soubor}), můžeme vidět, že se zde některé prvky přece jen opakují. Jsou to klíče, včetně uvozovek, v jednotlivých objektech, které stačí zapsat pouze jednou. Tohoto poznatku využívají i dva vybrané algoritmy JSONH a CJSON, které jsou specifické tím, že výstupem z nich je validní JSON. Rád bych čtenáře upozornil, že algoritmů pro kompresi JSON neexistuje mnoho, resp. jsou si velice podobné myšlenkou, provedením i názvy.
+JSON byl navržen jako odlehčená varianta způsobu formátování dat proti XML, čímž byla odstraněna i redundance při použití počátečního a ukončovacího tagu. Po seznámení s jeho definicí a syntaxí je zřejmé, že zde již nezbývá moc prostoru k dalšímu odlehčení. Podíváme-li se ale na data zapsaná v tomto formátu, která mohou obsahovat například výstup SQL příkazu SELECT nad databází, můžeme vidět, že se zde některé prvky přece jen opakují. Jsou to klíče, včetně uvozovek, v jednotlivých objektech, které stačí zapsat pouze jednou. Tohoto poznatku využívají i dva vybrané algoritmy JSONH a CJSON, které jsou specifické tím, že výstupem z nich je validní JSON. Rád bych čtenáře upozornil, že algoritmů pro kompresi JSON neexistuje mnoho, resp. jsou si velice podobné myšlenkou, provedením i názvy.
 
 S daty v tomto formátu nepracujeme jako s obyčejným textem, ale převedeme do paměti jako hodnoty (pole, objekty atd.), což odpovídá zpracování pomocí JavaScriptu. Tomu odpovídá i terminologie použitá v této kapitole, která byla popsána v části \ref{syntaxeJson}.
 
@@ -12,9 +12,11 @@ Tento algoritmus dovoluje komprimovat pouze homogenní kolekce dat, v terminolog
 \subsection{Vzorová data}
 Mějme homogenní kolekci zaměstnanců firmy, ve které máme uložené databázové id, příjmení a pozici, na které zaměstnanec pracuje. Část této kolekce vypadá následujícím způsobem:
 
-\texttt{[\{ \textquotedblright id\textquotedblright : 1, \textquotedblright name\textquotedblright : \textquotedblright Sánchez\textquotedblright, \textquotedblright position\textquotedblright : \textquotedblright Manager\textquotedblright\ \},\\
-\hspace*{2.3mm}\{ \textquotedblright id\textquotedblright : 2, \textquotedblright name\textquotedblright : \textquotedblright Duffy\textquotedblright, \textquotedblright position\textquotedblright : \textquotedblright Programmer\textquotedblright\ \},\\
-\hspace*{2.3mm}\{ \textquotedblright id\textquotedblright : 3, \textquotedblright name\textquotedblright : \textquotedblright Tamburello\textquotedblright, \textquotedblright position\textquotedblright : \textquotedblright Worker\textquotedblright\ \}]}
+\begin{verbatim}
+[ { "id" : 1, "name" : "Sánchez", "position" : "Manager" },
+    { "id" : 2, "name" : "Duffy", "position" : "Programmer" },
+    { "id" : 3, "name" : "Tamburello", "position" : "Programmer" } ]
+\end{verbatim}
 
 \subsection{Postup komprese}
 \begin{enumerate}
@@ -26,9 +28,10 @@ Mějme homogenní kolekci zaměstnanců firmy, ve které máme uložené databá
 \end{enumerate}
 
 Data po kompresi mají následující podobu:
-
-\texttt{[ 3, \textquotedblright id\textquotedblright, \textquotedblright name\textquotedblright, \textquotedblright position\textquotedblright, 1, \textquotedblright Sánchez\textquotedblright, \textquotedblright Manager\textquotedblright, 2, \textquotedblright Duffy\textquotedblright,\\
-\hspace*{5mm}\textquotedblright Programmer\textquotedblright, 3, \textquotedblright Tamburello\textquotedblright, \textquotedblright Worker\textquotedblright\ ]}
+\begin{verbatim}
+[ 3, "id", "name", "position", 1, "Sánchez", "Manager", 2, "Duffy",
+    "Programmer", 3, "Tamburello", "Worker" ]
+\end{verbatim}
 
 \subsection{Postup rekonstrukce dat}
 \begin{enumerate}
@@ -43,25 +46,18 @@ Data po kompresi mají následující podobu:
 \label{cjson}
 Proti JSONH dokáže algoritmus CJSON komprimovat i nehomogenní data. K tomu, aby bylo při kompresi dosaženo významné úspory, je nutná určitá struktura dat. Tu bych přirovnal k dědičnosti, jak ji známe z principů objektově orientovaného programování. To znamená, že data lze popsat pomocí tříd, které sdílejí některé členy. Účinnost komprese závisí na poměru počtu tříd a množství dat k nim příslušných. Platí, že čím menší počet tříd a větší množství příslušných dat, tím větší je kompresní účinnost. Za ideál lze potom považovat homogenní data, tedy případ kdy stačí k popisu pouze jedna třída, ke které přísluší všechna data.
 
-Algoritmus v průběhu komprese vytváří postupně strom šablon, který je na závěr vložen do výstupu ve formě jednotlivých šablon, která využívá již zmiňované dědičnosti. Konstrukce stromu je zobrazena na obrázku \ref{cjsonKonstrukceStromu}. \textcolor{red}{Doplnit očíslování v obrázku a popis vytváření stromu.}
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[trim=30 180 150 50, clip, angle=0, width=150mm]{cjsonStrom}
-\caption{Postup vytvoření stromu šablon}
-\label{cjsonKonstrukceStromu}
-\end{figure}
+Algoritmus v průběhu komprese vytváří postupně strom šablon, který je na závěr vložen do výstupu ve formě jednotlivých šablon, která využívá již zmiňované dědičnosti. Konstrukce stromu je zobrazena na obrázku \ref{cjsonKonstrukceStromu}.
 
 \subsection{Vzorová data}
-\textcolor{red}{Vytvořit data, popsat, upravit obrázek konstrukce stromu!!!}
-
 Mějme homogenní kolekci zaměstnanců firmy, ve které máme uložené databázové id, příjmení a pozici, na které zaměstnanec pracuje. Tato kolekce může vypadat následujícím způsobem.
 
-\texttt{[\\
-\hspace*{5mm}\{ \textquotedblright id\textquotedblright : 1, \textquotedblright name\textquotedblright : \textquotedblright Sánchez\textquotedblright, \textquotedblright position\textquotedblright : \textquotedblright Manager\textquotedblright\ \},\\
-\hspace*{5mm}\{ \textquotedblright id\textquotedblright : 2, \textquotedblright name\textquotedblright : \textquotedblright Duffy\textquotedblright, \textquotedblright position\textquotedblright : \textquotedblright Programmer\textquotedblright\ \},\\
-\hspace*{5mm}\{ \textquotedblright id\textquotedblright : 3, \textquotedblright name\textquotedblright : \textquotedblright Tamburello\textquotedblright, \textquotedblright position\textquotedblright : \textquotedblright Worker\textquotedblright\ \}\\
-]}
+\begin{verbatim}
+[
+    { "x" : 5, "y" : 10 },
+    { "x" : 8, "y" : 4, "r" : 3 },
+    { "x" : 7, "y" : 1, "h" : 4, "w" : 2 }
+]
+\end{verbatim}
 
 \subsection{Postup komprese}
 \label{cjsonPoKompresi}
@@ -74,11 +70,24 @@ Mějme homogenní kolekci zaměstnanců firmy, ve které máme uložené databá
 \item Objekt vzniklý v bodu \ref{cjsonItem0} serializujeme jako JSON do řetězce nebo souboru.
 \end{enumerate}
 
+Během komprese byl sestrojen strom podobně, jako je tomu na obrázku \ref{cjsonKonstrukceStromu}. Popsané uzly (např. bod, kružnice atd.) odpovídají jednotlivým šablonám z nichž šablona pro prázdný objekt je defaultní, se kterou algoritmus začíná a ze které výsledný strom staví.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[trim=10 205 210 20, clip, angle=0, width=150mm]{cjsonStrom}
+\caption{Postup vytvoření stromu šablon}
+\label{cjsonKonstrukceStromu}
+\end{figure}
+
+\newpage
 Data mají po kompresi následující tvar:
 
-\texttt{\{\hspace*{3mm}"f" : "cjson",\\
-\hspace*{5mm}"t" : [ [ 0, "x", "y" ], [ 1, "width", "height" ] ],\\
-\hspace*{5mm}"v" : [ \{ "" : [ 1, 100, 100 ] \}, \{ "" : [ 2, 100, 100, 200, 150 ] \} ] \}}
+\begin{verbatim}
+{   "f" : "cjson",
+    "t" : [0, "x", "y"], [1, "r"], [1, "h", "w"],
+    "v" : [ { "" : [1, 5, 10] }, { "" : [1, 8, 4, 3] },
+            { "" : [1, 7, 1, 4, 2] } }
+\end{verbatim}
 
 \subsection{Postup rekonstrukce dat}
 \begin{enumerate}

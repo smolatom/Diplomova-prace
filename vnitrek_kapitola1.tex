@@ -32,24 +32,27 @@ Vše, co není tagem, je v dokumentu považováno za obsah. Kromě obyčejného 
 \label{xmlpriklad}
 Na následujících řádcích je zapsán XML element typu \texttt{Person}, oblíbená postavička Homer Simpson ze seriálu The Simpsons, který kromě jiného obsahuje vnořený element typu \texttt{Relatives}, který zde slouží jako kontejner s Homerovými příbuznými.
 
-\texttt{\small<Person>\\
-\hspace*{2mm}<FirstName>Homer</FirstName>\\
-\hspace*{2mm}<LastName>Simpson</LastName>\\
-\hspace*{2mm}<Relatives>\\
-\hspace*{4mm}<Relative>Grandpa</Relative>\\
-\hspace*{4mm}<Relative>Marge</Relative>\\
-\hspace*{4mm}<Relative>Bart</Relative>\\
-\hspace*{4mm}<Relative>Lisa</Relative>\\
-\hspace*{4mm}<Relative>Maggie</Relative>\\
-\hspace*{2mm}</Relatives>\\
-</Person>}
+\begin{verbatim}
+
+<Person>
+    <FirstName>Homer</FirstName>
+    <LastName>Simpson</LastName>
+    <Relatives>
+        <Relative>Grandpa</Relative>
+        <Relative>Marge</Relative>
+        <Relative>Bart</Relative>
+        <Relative>Lisa</Relative>
+        <Relative>Maggie</Relative>
+    </Relatives>
+</Person>
+\end{verbatim}
 
 \section{JSON}
 \label{sectionJson}
 JSON neboli JavaScript Object Notation je odlehčený způsob zápisu (formátování) dat. Navzdory svému názvu jde o datově orientovaný textový formát nezávislý na počítačové platformě a čitelný pro člověka. Vznikl jako alternativa ke XML v oblasti výměny dat mezi systémy bez ohledu na použité technologie.
 
 \subsection{Charakteristika}
-Jak již název napovídá, je JSON velice úzce spojen s programovacím jazykem JavaScript -- je na jeho syntaxi je založen. Hlavními prvky JSON jsou dvě univerzální datové struktury: kolekce dvojic klíč/hodnota s unikátními klíči (tzv. associative array) a seřazený seznam hodnot (tzv. array), které podporují v nějaké formě asi všechny známé moderní programovací jazyky.
+Jak již název napovídá, je JSON velice úzce spojen s programovacím jazykem JavaScript -- z jeho syntaxe byl odvozen a je z velké části podmnožinou toho jazyka. Hlavními prvky JSON jsou dvě univerzální datové struktury: kolekce dvojic klíč/hodnota s unikátními klíči (tzv. associative array) a seřazený seznam hodnot (tzv. array), které podporují v nějaké formě asi všechny známé moderní programovací jazyky.
 
 Silnou stránkou JSON je rychlost zpracování JavaScriptem, bohužel právě přímé zpracování je zároveň potenciální hrozbou, neboť může být zneužito útočníkem k vykonání nějakého škodlivého kódu.
 
@@ -57,7 +60,7 @@ Orientace na data a zvolená syntaktická struktura umožňují přehledný záp
 
 \subsection{Syntaktická analýza}
 \label{syntaxeJson}
-Dle definice \cite{json} je JSON posloupností tokenů tvořených z Unicode znaků. Sada tokenů obsahuje šest strukturálních tokenů: \texttt{[} (levá hranatá závorka), \texttt{\{} (levá složená závorka), \texttt{]} (pravá hranatá závorka), \texttt{\}} (pravá složená závorka), \texttt{:} (dvojtečka) a \texttt{,} (čárka); dále obsahuje znakové řetězce, čísla a tři doslovné tokeny: \texttt{true}, \texttt{false} a \texttt{null}.
+Dle definice \cite{json} je JSON posloupností tokenů tvořených z Unicode znaků. Sada tokenů obsahuje šest strukturálních tokenů: \texttt{[} (levá hranatá závorka), \texttt{\{} (levá složená závorka), \texttt{]} (pravá hranatá závorka), \texttt{\}} (pravá složená závorka), \texttt{:} (dvojtečka) a \texttt{,} (čárka); dále obsahuje znakové řetězce, čísla a tři doslovné tokeny: \texttt{true}, \texttt{false} a \texttt{null}. Na obrázcích \ref{hodnota} až \ref{retezec} lze vidět schémata, které popisují syntaxi formátu. Čteme je zleva doprava a tam, kde to schéma dovoluje, se můžeme i vracet. Všechny znaky, hodnoty atd., na které při procházení narazíme, může zkoumaný prvek v daném pořadí obsahovat.
 
 \subsubsection{Hodnoty}
 Za hodnotu je v JSON považován objekt, pole, číslo, řetězec, \texttt{true}, \texttt{false}, nebo \texttt{null}.
@@ -112,17 +115,19 @@ Pole je složeno z dvojice hranatých závorek, mezi kterými může být nula n
 \subsection{Vzorový příklad}
 Stejně jako ve vzorovém příkladu \ref{xmlpriklad} ke XML, je zde popsána postavička Homera Simpsona včetně příbuzných, tentokrát ale v notaci JSON. Jde o objekt složený ze tří atributů, první dva mají hodnoty typu řetězec, k poslednímu \texttt{relatives} ale přísluší hodnota typu pole, ve kterém je vloženo pět příbuzných -- hodnot typu řetězec.
 
-\texttt{\small\{\\
-\hspace*{2mm}"firstName": "Homer",\\
-\hspace*{2mm}"lastName": "Simpson",\\
-\hspace*{2mm}"relatives": [\\
-\hspace*{4mm}"Grandpa",\\
-\hspace*{4mm}"Marge",\\
-\hspace*{4mm}"Bart",\\
-\hspace*{4mm}"Lisa",\\
-\hspace*{4mm}"Maggie"\\
-\hspace*{2mm}]\\
-\} }
+\begin{verbatim}
+{
+    "firstName": "Homer",
+    "lastName": "Simpson",
+    "relatives": [
+        "Grandpa",
+        "Marge",
+        "Bart",
+        "Lisa",
+        "Maggie"
+    ]
+}
+\end{verbatim}
 
 \section{Vzájemné porovnání XML a JSON}
 
