@@ -1,4 +1,5 @@
-\documentclass[a4paper,11pt]{report}
+\documentclass[a4paper,11pt,twoside]{report}
+\usepackage[a4paper, hmarginratio=3:2]{geometry} % využití celé A4 stránky a nastavení okrajů
 \usepackage[czech]{babel}	%česky psaná práce
 \usepackage[utf8]{inputenc}	%znaková sada utf8
 
@@ -22,9 +23,9 @@
 
 \graphicspath{{pics/}}
 
-\oddsidemargin=10mm   % levý okraj větší (kvůli vazbě)
+%\oddsidemargin=10mm   % levý okraj větší (kvůli vazbě)
 \topmargin=-15mm      % horní okraj trochu menší
-\textwidth=150mm      % výška textu na stránce
+\textwidth=150mm      % šířka textu na stránce
 \textheight=240mm     % "výška" textu na stránce
 
 \pagenumbering{arabic} % číslování stránek arabskými číslicemi
@@ -66,13 +67,13 @@
 \newcommand{\pracovisteKonz}{} % POKUD MÁTE konzultanta, NAPIŠTE jeho pracoviště
 
 \newcommand{\klicova}{XML, JSON, komprese dat, C\#}   % zde NAPIŠTE česky max. 5 klíčových slov
-\newcommand{\keyword}{XMK, JSON, data compression, C\#}       % zde NAPIŠTE anglicky max. 5 klíčových slov (přeložte z češtiny)
-\newcommand{\abstrCZ}{Cílem práce je porovnání přínosu znalosti struktury dat při kompresi souborů formátu XML a JSON proti klasickým algoritmům a také vzájemné porovnání vhodnosti obou formátů ke kompresi.\\
-V teoretické části práce je provedena důkladná analýza formátů XML a JSON, na kterou navazuje popis vybraných existujících kompresních algoritmů a to jak obecných, tak i specializovaných na XML a JSON.\\
-Praktická část popisuje vytvořenou knihovnu vybraných kompresních algoritmů a algoritmy samotné. Navíc jsou zde popsány i úskalí, se kterými je potřeba se při návrhu a implementaci vypořádat. Hlavním výstupem práce je otestování vlastních i existujících algoritmů na testovacích datech a srovnání dosažených výsledků.} % zde NAPIŠTE abstrakt včeštině
-\newcommand{\abstrEN}{The aim of this thesis is to compare the benefits of the knowledge of data structure of XML and JSON when compressing files against classical algorithms, as well as the appropriateness of the mutual comparison of the two formats for compression.\\
-In the theoretical part there is a thorough analysis of formats XML and JSON, which is followed by a description of selected existing compression algorithms both genereal and specialized in XML and JSON.\\
-The practical part describes created library of selected compression algorithms and the algorithms themselves. Additionally, there are also described difficulties which it is necessary to deal with for the design and implementation. The main outcome of this thesis is to test self-implemented and existing algorithms on test data and comparison of results.}                  % zde NAPIŠTE abstrakt v angličtině
+\newcommand{\keyword}{XML, JSON, data compression, C\#}       % zde NAPIŠTE anglicky max. 5 klíčových slov (přeložte z češtiny)
+\newcommand{\abstrCZ}{Cílem práce je porovnat přínos znalosti struktury dat při kompresi souborů formátu XML a JSON proti klasickým algoritmům a také vzájemně srovnat vhodnost obou formátů ke kompresi.\\
+V teoretické části práce je provedena důkladná analýza formátů XML a JSON, na kterou navazuje popis vybraných existujících kompresních algoritmů, a to jak obecných, tak i specializovaných na XML a JSON.\\
+Praktická část popisuje vytvořenou knihovnu vybraných kompresních algoritmů a algoritmy samotné. Navíc jsou zde popsána i úskalí, se kterými je potřeba se při návrhu a implementaci vypořádat. Hlavním výstupem práce je otestování vlastních i existujících algoritmů na testovacích datech a srovnání dosažených výsledků.} % zde NAPIŠTE abstrakt včeštině
+\newcommand{\abstrEN}{The aim of this thesis is to compare the benefits of knowledge of data structure of XML and JSON  when compressing files against classical algorithms and to mutually compare the appropriateness of both formats for compression.\\
+In the theoretical part there is a thorough analysis of formats XML and JSON which is followed by a description of selected existing compression algorithms both general and specialized in XML and JSON.\\
+The practical part describes created library of selected compression algorithms and the algorithms themselves. There are also described difficulties which are necessary to solve for the design and implementation. The main outcome of this thesis is to test self-implemented and existing algorithms on test data and comparison of the results.}                  % zde NAPIŠTE abstrakt v angličtině
 \begin{document}
 
 % 1. strana -- na následujících 30 řádků NESAHEJTE!!!  Generují se AUTOMATICKY 
@@ -106,12 +107,19 @@ The practical part describes created library of selected compression algorithms 
     \end{tabular}
    }
 \end{center}
+\newpage
+\thispagestyle{empty}
+\mbox{}
 
 % 2. strana: zadání práce  
 %   Před svázáním místo téhle stránky vložte zadání práce s podpisem děkana
 \newpage  % SEM NESAHEJTE!
 \thispagestyle{empty} Před svázáním místo téhle stránky \fbox{vložte zadání práce} s podpisem
 děkana (bude to jediný oboustranný list ve Vaší práci) !!!!
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
 
 % 3. strana: prohlášení
 \newpage % SEM NESAHEJTE!
