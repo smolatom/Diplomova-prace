@@ -3,7 +3,7 @@ Komprese nebo také komprimace dat je taková transformace dat, která má za c�
 
 \section{Princip komprese dat}
 \label{sekcePrincipKompreseDat}
-Data velmi často obsahují tzv. redundantní\footnote{Redundance znamená informační nadbytek, např. vícenásobný výskyt slov v textu.} informaci, toho právě využívá komprese -- data jsou zpracována tak, aby byla redundance minimalizována. Jak lze vidět na obrázku \ref{kompreseDekomprese}, je na vstupní data použita operace komprese. Operací dekomprese dostaneme poté data rekonstruovaná -- v závislosti na použité kompresní metodě a požadavcích získáme buď data přesně odpovídající původním, nebo pouze částečná. Z tohoto hlediska rozlišujeme dva typy kompresních metod: ztrátové a bezeztrátové.
+Data velmi často obsahují tzv. redundantní\footnote{Redundance znamená informační nadbytek, např. vícenásobný výskyt slov v textu.} informaci a toho právě využívá komprese -- data jsou zpracována tak, aby byla redundance minimalizována. Jak lze vidět na obrázku \ref{kompreseDekomprese}, je na vstupní data použita operace komprese. Operací dekomprese dostaneme poté data rekonstruovaná -- v závislosti na použité kompresní metodě a požadavcích získáme buď data přesně odpovídající původním, nebo pouze částečná. Z tohoto hlediska rozlišujeme dva typy kompresních metod: ztrátové a bezeztrátové.
 
 \begin{figure}[!htb]
 \centering
@@ -35,7 +35,7 @@ Mějme například 2D obrázek o velikosti $256\times256$ pixelů, který zabír
 \section{Míra informace v datech}
 Než se budeme moci věnovat jednotlivým kompresním metodám, připomeňme stručně myšlenky z teorie informace, které poskytly základ pro rozvoj metod bezeztrátové komprese. V této části předpokládám čtenářovu znalost základů teorie pravděpodobnosti a~statistiky.
 
-Informační entropie\footnote{Nazývaná též Shannonova po Claudu E. Shannonovi, který zformuloval klíčové poznatky.}, jakožto míra neurčitosti v datech, nám pomůže lépe porozumět principům komprese. Představme si dva zdroje (označím je $\mathbf{Z}_1$ a $\mathbf{Z}_2$), které produkují zprávy složené ze symbolů (znaků) zdrojové abecedy $\mathbb{A} = \{\alpha, \beta, \gamma, \delta\}$. Oba zdroje generují znaky zprávy náhodně, pro zdroj $\mathbf{Z}_1$ však platí, že mají všechny znaky stejnou pravděpodobnost výskytu a to 0,25. Pro zdroj $\mathbf{Z}_2$ jsou pravděpodobnosti výskytu popsány v tabulce \ref{pstVyskytu}. Který ze zdrojů produkuje více informace?
+Informační entropie\footnote{Nazývaná též Shannonova po Claudu E. Shannonovi, který zformuloval klíčové poznatky.}, jakožto míra neurčitosti v datech, nám pomůže lépe porozumět principům komprese. Představme si dva zdroje (označím je $\mathbf{Z}_1$ a $\mathbf{Z}_2$), které produkují zprávy složené ze symbolů (znaků) zdrojové abecedy $\mathbb{A} = \{\alpha, \beta, \gamma, \delta\}$. Oba zdroje generují znaky zprávy náhodně, pro zdroj $\mathbf{Z}_1$ však platí, že mají všechny znaky stejnou pravděpodobnost výskytu a to $0,\!25$. Pro zdroj $\mathbf{Z}_2$ jsou pravděpodobnosti výskytu popsány v tabulce \ref{pstVyskytu}. Který ze zdrojů produkuje více informace?
 
 \begin{table}[!htb]
 \centering
@@ -43,10 +43,10 @@ Informační entropie\footnote{Nazývaná též Shannonova po Claudu E. Shannono
 \hline
 Znak & Pravděpodobnost výskytu\\
 \hline
-$\alpha$ & $p_\alpha = 0,5$\\
-$\beta$ & $p_\beta = 0,3$\\
-$\gamma$ & $p_\gamma = 0,1$\\
-$\delta$ & $p_\delta = 0,1$\\
+$\alpha$ & $p_\alpha = 0,\!5$\\
+$\beta$ & $p_\beta = 0,\!3$\\
+$\gamma$ & $p_\gamma = 0,\!1$\\
+$\delta$ & $p_\delta = 0,\!1$\\
 \hline
 \end{tabular}
 \caption{Pravděpodobnost výskytu znaků abecedy $\mathbb{A}$ ve zdroji $\mathbf{Z}_2$}
@@ -69,14 +69,14 @@ Claude E. Shannon si tuto otázku položil následujícím způsobem. Jaký je n
 \label{rozhodovaciStromZ2}
 \end{figure}
 
-Průměrný počet otázek na zjištění jednoho znaku (tento počet označím $\bar{q}$) pokládaných tímto způsobem odpovídá pravděpodobnostem výskytu jednotlivých znaků a lze jej vy\-po\-čí\-tat jako $\bar{q} = \sum_{a \in \mathbb{A}} \#a \cdot p_a$, kde $\#a$ je počet otázek pro zjištění, že jde o znak $a$, a $p_a$ je pravděpodobnost výskytu znaku $a$. Pro zdroj $\mathbf{Z}_1$ dostaneme $\bar{q}_1 = 2p_\alpha + 2p_\beta + 2p_\gamma + 2p_\delta =$ $=2\cdot0,25 + 2\cdot0,25 + 2\cdot0,25 + 2\cdot0,25 = 2$, tedy 2 otázky na znak, a pro zdroj $\mathbf{Z}_2$ dostaneme podobně $\bar{q}_2 = 1p_\alpha + 2p_\beta + 3p_\gamma + 3p_\delta =1\cdot0,5 + 2\cdot0,3 + 3\cdot0,1 + 3\cdot0,1 = 1,7$, tedy $1,7$ otázky na znak.
+Průměrný počet otázek na zjištění jednoho znaku (tento počet označím $\bar{q}$) pokládaných tímto způsobem odpovídá pravděpodobnostem výskytu jednotlivých znaků a lze jej vy\-po\-čí\-tat jako $\bar{q} = \sum_{a \in \mathbb{A}} \#a \cdot p_a$, kde $\#a$ je počet otázek pro zjištění, že jde o znak $a$, a $p_a$ je pravděpodobnost výskytu znaku $a$. Pro zdroj $\mathbf{Z}_1$ dostaneme $\bar{q}_1 = 2p_\alpha + 2p_\beta + 2p_\gamma + 2p_\delta =$ $=2\cdot0,\!25 + 2\cdot0,\!25 + 2\cdot0,\!25 + 2\cdot0,\!25 = 2$ (tedy 2 otázky na znak) a pro zdroj $\mathbf{Z}_2$ dostaneme podobně $\bar{q}_2 = 1p_\alpha + 2p_\beta + 3p_\gamma + 3p_\delta =1\cdot0,\!5 + 2\cdot0,\!3 + 3\cdot0,\!1 + 3\cdot0,\!1 = 1,\!7$ (tedy $1,\!7$ otázky na znak).
 
 To znamená, že budeme-li se ptát na 1000 znaků u obou zdrojů, budeme muset položit 2000 otázek ke zjištění znaků ze zdroje $\mathbf{Z}_1$ a 1700 otázek ke zjištění znaků ze zdroje $\mathbf{Z}_2$. Výstup zdroje $\mathbf{Z}_2$ obsahuje méně překvapení, nebo lépe neurčitosti, než výstup zdroje $\mathbf{Z}_1$. Hovoříme o tom, že výstup zdroje $\mathbf{Z}_2$ poskytuje méně informace než výstup zdroje $\mathbf{Z}_1$.
 
 \subsection{Entropie informačního zdroje}
 V Shannonově teorii je definice zdroje informace prakticky totožná s definicí pravdě\-po\-do\-bno\-stní\-ho prostoru, tj. trojice $(\mathcal{X},\mathcal{S},p)$, kde $\mathcal{X}$ je množina elementárních jevů (zpráv), $\mathcal{S}$ je třída náhodných jevů ($\sigma$-algebra podmnožin $\mathcal{X}$) a $p$ je pravděpodobnostní míra na $\mathcal{S}$. \cite{teorieInformace}
 
-Pro nás bude modelem zdroje informace diskrétní pravděpodobnostní prostor $(\mathcal{X},p(x))$, který generuje zprávu $X$, jež je náhodnou veličinou s výběrovým prostorem $(\mathcal{X}, px(x))$. Mezi zprávou $X$ a zdrojem $(\mathcal{X}, p(x))$ panuje ekvivalence, značíme $X \thicksim (\mathcal{X}, p(x))$. Základním pojmem teorie informace je entropie $H(X)$ zdroje $X$, jde o číslo, kterým charakterizujeme, jak obtížné je předpovědět hodnotu dané náhodné veličiny $X$, tj. zprávu, kterou vyprodukuje daný zdroj informace $X \thicksim (\mathcal{X}, p(x))$. Následuje formální definice entropie. \cite{teorieInformace}
+Pro nás bude modelem zdroje informace diskrétní pravděpodobnostní prostor $(\mathcal{X},p(x))$, který generuje zprávu $X$, jež je náhodnou veličinou s výběrovým prostorem $(\mathcal{X}, p(x))$. Mezi zprávou $X$ a zdrojem $(\mathcal{X}, p(x))$ panuje ekvivalence, značíme $X \thicksim (\mathcal{X}, p(x))$. Základním pojmem teorie informace je entropie $H(X)$ zdroje $X$, jde o číslo, kterým charakterizujeme, jak obtížné je předpovědět hodnotu dané náhodné veličiny $X$, tj. zprávu, kterou vyprodukuje daný zdroj informace $X \thicksim (\mathcal{X}, p(x))$. Následuje formální definice entropie. \cite{teorieInformace}
 
 \begin{defi}
 Entropie zdroje informace $X \thicksim (\mathcal{X}, p(x))$ je veličina $$H(X) = -\sum_{x \in \mathcal{X}} p(x)\log p(x),$$ kde $0 \log 0 = \lim_{t \to 0_+} t \log t = 0$.

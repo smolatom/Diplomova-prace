@@ -2,7 +2,7 @@
 \label{kapitolaPorovnaniUcinnosti}
 Poslední kapitola této diplomové práce je zaměřena na aplikaci vybraných kompresních mechanismů na data zapsaná ve formátech XML a JSON. Porovnání bylo provedeno na volně dostupných datech pomocí volně dostupných programů a algoritmů. Naměřené výsledky jsou popsány ve druhé části kapitoly.
 
-\section{Technická parametry testování}
+\section{Technické parametry testování}
 
 \subsection{Popis zvolených algoritmů}
 Pro vzájemné porovnání jsem kromě algoritmů LZ77, XMill, JSONH a CJSON, které jsou popsány v částech \ref{lz77}, \ref{xmill}, \ref{jsonh} a \ref{cjson}, zvolil i algoritmy LZMA2, PPMd, gzip, které nejsou závislé na formátu dat. Program XMill byl spouštěn s požadovanými parametry z~příkazové řádky, algoritmus CJSON byl spouštěn v prohlížečí Google Chrome a mnou implementované algoritmy LZ77 a JSONH byly spouštěny jako konzolová aplikace referencující vytvořenou knihovnu. Zbývající 3 algoritmy implementuje program 7-Zip \cite{7zip}, který umožňuje volbu parametrů komprese, jako jsou velikosti slovníku, slova apod.

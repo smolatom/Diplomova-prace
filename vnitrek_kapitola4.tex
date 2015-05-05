@@ -7,7 +7,7 @@ Základní princip a problematiku slovníkové komprese si můžeme představit 
 
 Při kompresi budeme na výstup zapisovat jeden bit, charakterizující, zda je či není zpracovávané slovo obsaženo ve slovníku (např. 1 a 0), následovaný osmibitovým indexem slova (pokud je ve slovníku) nebo dvacetibitovým kódem slova (pokud ve slovníku není). To znamená, že pro slova ve slovníku potřebujeme pouze 9 bitů, zatímco pro slova, která ve slovníku nejsou, potřebujeme bitů 21.
 
-Pro to, aby byl takovýto způsob komprese účinný, je rozhodující pravděpodobnost, že je zpracovávané slovo ve slovníku. To lze vyjádřit pomocí vzorce $R = Sp + T(1-p)$, kde $R$ je průměrný počet bitů na slovo, $S$ počet bitů pro slovo ve slovníku, $T$ počet bitů pro slovo mimo slovník a $p$ je pravděpodobnost, že je zpracovávané slovo ve slovníku. V našem případě musí být $R < 20$, což je splněno pro $p\geq 0,08\bar{3}$.
+Pro to, aby byl takovýto způsob komprese účinný, je rozhodující pravděpodobnost, že je zpracovávané slovo ve slovníku. To lze vyjádřit pomocí vzorce $R = Sp + T(1-p)$, kde $R$ je průměrný počet bitů na slovo, $S$ počet bitů pro slovo ve slovníku, $T$ počet bitů pro slovo mimo slovník a $p$ je pravděpodobnost, že je zpracovávané slovo ve slovníku. V našem případě musí být $R < 20$, což je splněno pro $p\geq 0,\!08\bar{3}$.
 
 Pro pravděpodobnost $p$ blízkou číslu $0,08\bar{3}$ je účinnost komprese nízká a tedy nezajímavá. Pro vysokou účinnost potřebujeme pravděpodobnost $p$ co možná největší. Toho lze do\-sá\-hnout zvětšením slovníku, což s sebou nese vyšší paměťové nároky a časově náročnější prohledávání, nebo pečlivým výběrem slov ve slovníku.
 
@@ -116,7 +116,7 @@ Index & Fráze & \\
 \end{table}
 
 \subsection{Princip dekomprese}
-Při rekonstrukci dat jsou čteny jednotlivé dvojice (index, znak) a slovník je vytvářen pomocí úplně stejných kroků jako v případě komprese. Je tedy složitější než dekompresní algoritmus LZ77. Plátí, že je-li nějaká fráze ve slovníku, pak jsou v něm i všechny její prefixy. Ty jsou nutné pro hledání delších frází, neboť kompresní algoritmus se odkazuje na prefixové fráze o jeden znak kratší.
+Při rekonstrukci dat jsou čteny jednotlivé dvojice (index, znak) a slovník je vytvářen pomocí úplně stejných kroků jako v případě komprese. Je tedy složitější než dekompresní algoritmus LZ77. Platí, že je-li nějaká fráze ve slovníku, pak jsou v něm i všechny její prefixy. Ty jsou nutné pro hledání delších frází, neboť kompresní algoritmus se odkazuje na prefixové fráze o jeden znak kratší.
 
 \subsection{Variace algoritmu LZ78}
 Podobně jako v případě algoritmu LZ77 vniklo i množství variant postavených na myšlence algoritmu LZ78 upravujících ty části, které považují autoři za neefektivní. Mezi nej\-vý\-zna\-mně\-jší se řadí metoda LZW vycházející z předpokladu, že kódovat jednotlivé znaky pomocí výše zmíněných dvojic je neefektivní. Místo toho na počátku kompresního procesu inicializuje slovník všemi jednoznakovými frázemi znaků zdrojové abecedy. Je-li hledaná fráze nalezena, pokračuje načtením dalšího znaku a hledáním delší fráze. Naopak, není-li fráze nalezena, je vložena do slovníku, ale na výstup kóduje pouze index o jeden znak kratší fráze nalezené ve slovníku (nalezení jednoznakové fráze je zaručeno díky původní inicializaci slovníku). Další hledaná fráze začíná posledním zpracovaným znakem, tj. posledním znakem fráze uložené do slovníku v předchozím kroku.

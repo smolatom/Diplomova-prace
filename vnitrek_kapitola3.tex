@@ -1,6 +1,6 @@
 \chapter{Statistické techniky komprese}
 \label{kapitolaStatistickaKomprese}
-Statistické kompresní metody využívají znalosti tzv. pravděpodobnostního modelu komprimovaných dat. Modelem může být například četnost výskytu jednotlivých symbolů v~textu. Účinnost komprese je závislá na schopnosti co nejpřesněji modelovat zpracovávaná data. Čím více se model přibližuje realitě, tím je účinnost komprese vyšší. A naopak.
+Statistické kompresní metody využívají znalosti tzv. pravděpodobnostního modelu komprimovaných dat. Modelem může být například četnost výskytu jednotlivých symbolů v~textu. Účinnost komprese je závislá na schopnosti co nejpřesněji modelovat zpracovávaná data. Čím více se model přibližuje realitě, tím je účinnost komprese vyšší a naopak.
 
 \section{Pravděpodobnostní model}
 \label{pravdepodobnostniModel}
@@ -64,7 +64,7 @@ M & 1 & 111\\
 \label{adaptivniHuffman}
 Adaptivní Huffmanovo kódování konstruuje strom při kompresi i dekompresi posloupností stejných kroků, tzv. mirroring. Strom je v každém kroku upraven tak, aby produkoval nejkratší kód pro do té doby zpracovanou část dat. Jak se strom mění, mění se i kódy přiřazené jednotlivým symbolům. Listy stromu obsahují symboly a jejich četnosti výskytu, vnitřní uzly obsahují kumulovanou četnost svých potomků.
 
-Implementovaných verzí existuje několik. Níže je představena verze, kterou navrhl Jeffrey S. Vitter a ve které všechny uzly navíc obsahují pořadové číslo, které je využito při rozhodování při aktualizaci stromu. Nejvyšší pořadové číslo $n$ určíme ze vztahu $n = 2m -1$, kde $m$ je počet znaků zdrojové abecedy. Také se zde využívají tzv. bloky -- množiny uzlů se stejnou četností. Diagram aktualizace stromu po přečtení jednoho symbolu je možné vidět v příloze \textcolor{red}{odkaz}, způsob kódování a dekódování zprávy je popsán v části \ref{prikladAdaptivniHuffman}.
+Implementovaných verzí existuje několik. Níže je představena verze, kterou navrhl Jeffrey S. Vitter a ve které všechny uzly navíc obsahují pořadové číslo, které je využito při rozhodování při aktualizaci stromu. Nejvyšší pořadové číslo $n$ určíme ze vztahu $n = 2m -1$, kde $m$ je počet znaků zdrojové abecedy. Také se zde využívají tzv. bloky -- množiny uzlů se stejnou četností. Způsob kódování a dekódování zprávy je popsán v části \ref{prikladAdaptivniHuffman}.
 
 Algoritmus začíná pouze s uzlem označeným NYT (not yet transmitted), který symbolizuje všechny znaky, které se zatím ve stromu nevyskytují. Je-li ke zpracování načten symbol, který se ještě ve stromě nevyskytuje, je do výstupu vypsáno kódové slovo uzlu NYT následované nezakódovaným a dohodnutým tvarem zpracovávaného symbolu. Následně se z uzlu NYT stane vnitřní uzel a jsou mu přiřazeni dva noví potomci: nový uzel NYT a list reprezentující právě zpracovávaný znak. Poté je strom aktualizován. Je-li ke zpracování načten ve stromě již obsažený symbol, je na výstup vypsáno pouze kódové slovo tohoto symbolu a strom je aktualizován.
 

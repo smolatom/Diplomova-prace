@@ -53,7 +53,7 @@ Jádrem algoritmu je ale třída \texttt{VitterTree}, která implementuje logiku
 Pro účely dekomprese je strom implementován jako deterministický konečný automat. Obsahuje \texttt{ukazatel}, který udržuje referenci na jeden z uzlů (stav automatu). Na počátku \texttt{ukazatel} ukazuje na kořen a s každým přečteným bitem komprimované zprávy se přesune do následujícího uzlu dle přechodové funkce. Je-li přečten kód uzlu obsahujícího znak, je tento znak vrácen a strom aktualizován. Je-li přečten kód uzlu NYT, načte algoritmus dalších 7 bitů, které reprezentují ASCII kód nového znaku, ten je vložen do stromu a~vrácen. Zpracování jednoho bitu kódu provádí metoda \texttt{PushBit} (viz algoritmus 3).
 
 \newpage
-Při návrhu tohoto algoritmu jsem se snažil o dosažení co nejvyššího kompresního poměru, bohužel jsem tím, ale i díky nevědomosti, absolutně zanedbal správu paměti. Na tento nedostatek mne neupozornily ani jednotkové testy, které nejsou napsané pro řetězce dostatečně dlouhé na to, aby se únik paměti projevil. Algoritmus, tak jak je implementován, má problémy s pamětí i pro menší soubory a není ho tedy dost dobře možné použít při závěrečném porovnávání.
+Při návrhu tohoto algoritmu jsem se snažil o dosažení co nejvyššího kompresního poměru, bohužel jsem tím, hlavně kvůli nevědomosti, absolutně zanedbal správu paměti. Na tento nedostatek mne neupozornily ani jednotkové testy, které nejsou napsané pro řetězce dostatečně dlouhé na to, aby se únik paměti projevil. Algoritmus, tak jak je implementován, má problémy s pamětí i pro menší soubory a není ho tedy dost dobře možné použít při závěrečném porovnávání.
 
 \begin{table}[!h]
 \centering
