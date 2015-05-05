@@ -49,14 +49,12 @@ Proti JSONH dokáže algoritmus CJSON komprimovat i nehomogenní data. K tomu, a
 Algoritmus v průběhu komprese vytváří postupně strom šablon, který je na závěr vložen do výstupu ve formě jednotlivých šablon, která využívá již zmiňované dědičnosti. Konstrukce stromu je zobrazena na obrázku \ref{cjsonKonstrukceStromu}.
 
 \subsection{Vzorová data}
-Mějme homogenní kolekci zaměstnanců firmy, ve které máme uložené databázové id, příjmení a pozici, na které zaměstnanec pracuje. Tato kolekce může vypadat následujícím způsobem.
+Mějme kolekci rovinných geometrických útvarů, která obsahuje bod, kružnici a obdélník v tomto pořadí. Tato kolekce může vypadat následujícím způsobem:
 
 \begin{verbatim}
-[
-    { "x" : 5, "y" : 10 },
-    { "x" : 8, "y" : 4, "r" : 3 },
-    { "x" : 7, "y" : 1, "h" : 4, "w" : 2 }
-]
+[ { "souřadniceX" : 5, "souřadniceY" : 10 },
+    { "souřadniceX" : 8, "souřadniceY" : 4, "poloměr" : 3 },
+    { "souřadniceX" : 7, "souřadniceY" : 1, "výška" : 4, "šířka" : 2 } ]
 \end{verbatim}
 
 \subsection{Postup komprese}
@@ -74,7 +72,7 @@ Během komprese byl sestrojen strom podobně, jako je tomu na obrázku \ref{cjso
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[trim=10 205 210 20, clip, angle=0, width=150mm]{cjsonStrom}
+\includegraphics[trim=10 205 210 20, clip, angle=0, width=140mm]{cjsonStrom}
 \caption{Postup vytvoření stromu šablon}
 \label{cjsonKonstrukceStromu}
 \end{figure}
@@ -84,9 +82,10 @@ Data mají po kompresi následující tvar:
 
 \begin{verbatim}
 {   "f" : "cjson",
-    "t" : [0, "x", "y"], [1, "r"], [1, "h", "w"],
-    "v" : [ { "" : [1, 5, 10] }, { "" : [1, 8, 4, 3] },
-            { "" : [1, 7, 1, 4, 2] } }
+    "t" : [ [0, "souřadniceX", "souřadniceY"], [1, "poloměr"],
+            [1, "výška", "šířka"] ],
+    "v" : [ { "" : [1, 5, 10] }, { "" : [2, 8, 4, 3] },
+            { "" : [3, 7, 1, 4, 2] } ] }
 \end{verbatim}
 
 \subsection{Postup rekonstrukce dat}

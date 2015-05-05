@@ -15,7 +15,7 @@ Tento model je definován při implementaci kompresní metody a při použití s
 Komprimovaná data jsou jedním průchodem statisticky zpracována a následně je vytvořen odpovídající model. K samotné kompresi je ale nutný ještě druhý průchod daty s již vytvořeným modelem. Aby bylo možné data dekomprimovat, je nutné připojit model k~datům. Model je sice přesný, ale velikost zkomprimované zprávy je větší o model. Navíc přístup s dvěma průchody daty činí tyto algoritmy neefektivními a v praxi se moc nepoužívají.
 
 \subsection{Adaptivní model}
-Tento mode vzniká v průběhu zpracování dat a je postupně aktualizován. To platí i~pro dekompresní algoritmus, ten vytváří model stejně jako kompresní algoritmus z části textu, kterou již dekomprimoval. Díky tomu není nutné model připojovat k datům a také procházet data dvakrát.
+Tento model vzniká v průběhu zpracování dat a je postupně aktualizován. To platí i~pro dekompresní algoritmus, ten vytváří model stejně jako kompresní algoritmus z části textu, kterou již dekomprimoval. Díky tomu není nutné model připojovat k datům a také procházet data dvakrát.
 
 \section{Semiadaptivní Huffmanovo kódování}
 \label{huffmanovoKodovani}
@@ -32,7 +32,7 @@ Algoritmus nejprve seřadí symboly sestupně podle pravděpodobnosti výskytu a
 Při kódování zprávy zapisujeme na výstup kódová slova odpovídající čteným symbolům. Naopak při dekódování procházíme strom od uzlu k listům tak, jak jsou čteny jednotlivé znaky kódových slov. Pokud dojdeme do listu, přečetli jsme jeden původní symbol a~můžeme jej vypsat.
 
 \subsection{Vzorový příklad}
-Postup lze nejlépe prezentovat na příkladu. Mějme za úkol zakódvat zprávu \uv{MISSISSIPPI} pomocí semiadaptivního Huffmanova kódování. Výsledný strom je zobrazen na obrázku \ref{semiHuffmanStrom}, celá konstrukce pak v příloze \textcolor{red}{reference na konstrukci stromu v příloze}. Místo pravděpodobností výskytu jsou použity absolutní četnosti symbolů v listech a kumulativní četnosti v dalších uzlech. Získaná kódová slova pro jednotlivé symboly jsou zobrazena v~tabulce \ref{semiHuffmanStrom}.
+Postup lze nejlépe prezentovat na příkladu. Mějme za úkol zakódvat zprávu \uv{MISSISSIPPI} pomocí semiadaptivního Huffmanova kódování. Výsledný strom je zobrazen na obrázku \ref{semiHuffmanStrom} a je sestaven dle návodu popsaného v úvodu této podkapitoly. Místo pravdě\-po\-do\-bno\-stí výskytu jsou použity absolutní četnosti symbolů v listech a kumulativní četnosti v dalších uzlech. Získaná kódová slova pro jednotlivé symboly jsou zobrazena v~tabulce \ref{semiHuffmanStrom}.
 
 \subsubsection{Data po zakódování}
 Zakódovaná zpráva je tvaru \texttt{111|0|10|10|0|10|10|0|110|110|0}, kde je znak \uv{\texttt{|}} použit jako oddělovač jednotlivých kódových slov.
@@ -75,7 +75,7 @@ Nezakódovaný tvar zpracovávaného symbolu může být například jeho osmibi
 Pokusme se znovu zakódovat slovo MISSISSIPPI a uvažujme anglickou abecedu jako zdrojovou. Ta má 26 znaků, tedy $m=26$, $e = 4$ a $r=10$ a znaky číslujeme $a_1 = \mathrm{A}$ atd.
 
 \subsubsection{Zakódování zprávy a vytvoření stromu}
-Začínáme se stromem, který obsahuje pouze kořen NYT. Čteme znak M a na výstup zapíšeme jeho pětibitový nezakódovaný tvar pro $k=13$, tedy \texttt{01100}. Aktualizujeme strom. Čteme znak I, který se ve stromě také nevyskytuje. Na výstup zapíšeme kód uzlu NYT (nyní je to \texttt{0}) a pětibitový nezakódovaný tvar pro $k=9$, tedy \texttt{01000}. Aktualizujeme strom. Dále čteme nový znak S. Na výstup zapíšeme kód uzlu NYT (nyní je to \texttt{00}) a pětibitový nezakódovaný tvar pro $k=19$, tedy \texttt{10010}. Aktualizujeme strom. Dále čteme znak S, který ve stromu již je a tedy vypíšeme pouze jeho kód. Aktualizujeme strom. A tak pokračujeme pro všechny znaky slova. Výsledný strom je zobrazen na obrázku \ref{adaptivniHuffmanStrom}, celý postup vytvoření stromu pak v příloze \textcolor{red}{odkaz}. 
+Začínáme se stromem, který obsahuje pouze kořen NYT. Čteme znak M a na výstup zapíšeme jeho pětibitový nezakódovaný tvar pro $k=13$, tedy \texttt{01100}. Aktualizujeme strom. Čteme znak I, který se ve stromě také nevyskytuje. Na výstup zapíšeme kód uzlu NYT (nyní je to \texttt{0}) a pětibitový nezakódovaný tvar pro $k=9$, tedy \texttt{01000}. Aktualizujeme strom. Dále čteme nový znak S. Na výstup zapíšeme kód uzlu NYT (nyní je to \texttt{00}) a pětibitový nezakódovaný tvar pro $k=19$, tedy \texttt{10010}. Aktualizujeme strom. Dále čteme znak S, který ve stromu již je a tedy vypíšeme pouze jeho kód. Aktualizujeme strom. A tak pokračujeme pro všechny znaky slova. Výsledný strom je zobrazen na obrázku \ref{adaptivniHuffmanStrom}.
 
 \begin{figure}[!htb]
 \centering
@@ -88,4 +88,4 @@ Začínáme se stromem, který obsahuje pouze kořen NYT. Čteme znak M a na vý
 Výsledná zakódovaná zpráva je tvaru \texttt{01100|0|01000|00|10010|101|11|0|1|01|000|\\01111|1001|11}, kde jsem pro přehlednost vložil oddělovač \uv{\texttt{|}} oddělující jednotlivé vý\-zna\-mné bloky.
 
 \subsubsection{Dekódování zprávy}
-Přečteme $e=4$ bitům znaků, jejichž hodnota jakožto čtyřbitového čísla je 6, což je menší než $r=10$. Přečteme další znak, hodnota tohoto pětibitového čísla je 12 a tedy jsme přečetli symbol $a_{13} = \mathrm{M}$. Aktualizujeme strom. Následuje 0, která je kódovým slovem pro uzel NYT, po něm vždy následuje nezakódovaný symbol. Obdobně jako pro M přečteme symbol $a_8 = \mathrm{I}$. Aktualizujeme strom. Následuje kódové slovo uzlu NYT a symbol $a_{19} = \mathrm{S}$. Dále čteme kódové slovo uzlu pro symbol S. Takto pokračujeme, dokud nepřečteme všechna slova zakódované zprávy.
+Přečteme $e=4$ bitům znaků, jejichž hodnota jakožto čtyřbitového čísla je 6, což je menší než $r=10$. Přečteme další znak, hodnota tohoto pětibitového čísla je 12 a tedy jsme přečetli symbol $a_{13} = \mathrm{M}$. Aktualizujeme strom. Následuje 0, která je kódovým slovem pro uzel NYT, po něm vždy následuje nezakódovaný symbol. Obdobně jako pro M přečteme symbol $a_8 = \mathrm{I}$. Aktualizujeme strom. Následuje kódové slovo uzlu NYT a~symbol \mbox{$a_{19} = \mathrm{S}$}. Dále čteme kódové slovo uzlu pro symbol S. Takto pokračujeme, dokud nepřečteme všechna slova zakódované zprávy.
